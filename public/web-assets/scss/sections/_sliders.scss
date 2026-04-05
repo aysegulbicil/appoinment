@@ -1,0 +1,81 @@
+
+
+/*---========================
+    15. Sliders css 
+=======================----*/
+
+/* Slider Dots */ 
+
+ul.slick-dots{
+    & li{
+        position: relative;
+        width: 20px;
+        height: 20px;
+        border: 1px solid transparent;
+        border-radius: 50%;
+        &:after{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            @include transform(translate(-50%,-50%));
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            @extend  %white-bg;
+        }
+        &.slick-active{
+            border-color: $secondary-color;
+        }
+    }
+}
+
+.slider-active-5-item,
+.slider-active-4-item,
+.testimonial-slider-one{
+    margin-left: -15px;
+    margin-right: -15px;
+    @media #{$xs}{
+        margin-left: -12px;
+        margin-right: -12px;
+    }
+    & .slick-slide{
+        margin-left: 15px;
+        margin-right: 15px;
+        @media #{$xs}{
+            margin-left: 12px;
+            margin-right: 12px;
+        }
+    }
+}
+
+
+.testimonial-slider-one{
+    & ul.slick-dots{
+        text-align: center;
+        margin-top: 80px;
+    }
+}
+
+/* Partner Slider */ 
+
+.partner-slider-one{
+    margin-left: -40px;
+    margin-right: -40px;
+    @media #{$xm}{
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+    & .slick-track{
+        display: flex;
+        align-items: center;
+    }
+    & .slick-slide{
+        margin-left: 40px;
+        margin-right: 40px;
+        @media #{$xm}{
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+    }
+}

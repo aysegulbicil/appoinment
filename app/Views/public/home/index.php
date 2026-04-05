@@ -1,8 +1,11 @@
 <?php
+$contentView = $contentView ?? 'layouts/main';
+$contentData = $contentData ?? [];
+
 $html = implode('', [
     view('layouts/header'),
     view('layouts/sidebar'),
-    view('layouts/main'),
+    view($contentView, $contentData),
     view('layouts/footer'),
 ]);
 

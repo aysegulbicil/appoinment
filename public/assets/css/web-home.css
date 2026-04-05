@@ -1,0 +1,376 @@
+body.web-home-body {
+    font-family: "DM Sans", sans-serif;
+    color: #132238;
+    background:
+        radial-gradient(circle at top left, rgba(32, 201, 151, 0.18), transparent 30%),
+        linear-gradient(180deg, #f5fbff 0%, #ffffff 45%, #eef7f2 100%);
+}
+
+.web-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(19, 34, 56, 0.08);
+}
+
+.web-header__inner,
+.web-footer__grid,
+.web-hero__grid,
+.web-two-col,
+.web-card-grid,
+.web-step-grid,
+.web-stats {
+    display: grid;
+    gap: 24px;
+}
+
+.web-header__inner {
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    min-height: 88px;
+}
+
+.web-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: "Syne", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #132238;
+}
+
+.web-brand img {
+    width: 42px;
+    height: 42px;
+}
+
+.web-brand--footer,
+.web-brand--footer:hover {
+    color: #fff;
+}
+
+.web-nav {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+}
+
+.web-nav a,
+.web-footer__links a {
+    color: #3e536b;
+    font-weight: 500;
+}
+
+.web-header__actions {
+    display: flex;
+    gap: 12px;
+}
+
+.web-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 22px;
+    border-radius: 999px;
+    font-weight: 700;
+    transition: 0.2s ease;
+}
+
+.web-btn:hover {
+    transform: translateY(-1px);
+}
+
+.web-btn--primary {
+    background: #20c997;
+    color: #0a1f1a;
+    box-shadow: 0 18px 40px rgba(32, 201, 151, 0.25);
+}
+
+.web-btn--ghost {
+    border: 1px solid rgba(19, 34, 56, 0.14);
+    color: #132238;
+    background: #fff;
+}
+
+.web-hero,
+.web-section,
+.web-footer {
+    padding: 96px 0;
+}
+
+.web-hero__grid,
+.web-two-col {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+}
+
+.web-kicker {
+    display: inline-block;
+    margin-bottom: 18px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(19, 34, 56, 0.06);
+    color: #0d8c68;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.web-hero h1,
+.web-section h2 {
+    font-family: "Syne", sans-serif;
+    color: #132238;
+}
+
+.web-hero h1 {
+    font-size: 62px;
+    line-height: 1.05;
+    margin-bottom: 22px;
+}
+
+.web-hero p,
+.web-section p,
+.web-card p,
+.web-step p,
+.web-footer p {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #53687f;
+}
+
+.web-hero__actions {
+    display: flex;
+    gap: 14px;
+    margin: 34px 0 42px;
+}
+
+.web-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.web-stat,
+.web-feature-item,
+.web-card,
+.web-step {
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(19, 34, 56, 0.08);
+    box-shadow: 0 18px 50px rgba(25, 60, 93, 0.08);
+}
+
+.web-stat {
+    padding: 22px;
+}
+
+.web-stat strong {
+    display: block;
+    font-family: "Syne", sans-serif;
+    font-size: 32px;
+    color: #132238;
+}
+
+.web-stat span {
+    color: #577089;
+}
+
+.web-hero__card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 32px;
+    min-height: 560px;
+    box-shadow: 0 30px 70px rgba(25, 60, 93, 0.18);
+}
+
+.web-hero__card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.web-hero__overlay {
+    position: absolute;
+    left: 28px;
+    right: 28px;
+    bottom: 28px;
+    padding: 26px;
+    border-radius: 24px;
+    background: rgba(19, 34, 56, 0.78);
+    color: #fff;
+}
+
+.web-hero__overlay span {
+    display: block;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.web-hero__overlay strong {
+    display: block;
+    margin-top: 8px;
+    font-size: 28px;
+    line-height: 1.2;
+}
+
+.web-section--light {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.web-section--accent {
+    background: linear-gradient(135deg, #132238 0%, #1f425b 100%);
+}
+
+.web-section--accent .web-kicker,
+.web-section--accent h2,
+.web-section--accent p,
+.web-section--accent h3,
+.web-section--accent .web-step__number {
+    color: #fff;
+}
+
+.web-section__heading {
+    max-width: 720px;
+    margin-bottom: 36px;
+}
+
+.web-card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.web-feature-list {
+    display: grid;
+    gap: 16px;
+}
+
+.web-feature-item,
+.web-card,
+.web-step {
+    padding: 28px;
+}
+
+.web-card__badge {
+    display: inline-block;
+    margin-bottom: 14px;
+    color: #0d8c68;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.web-card h3,
+.web-step h3 {
+    font-family: "Syne", sans-serif;
+    margin-bottom: 14px;
+    color: #132238;
+}
+
+.web-card--quote strong,
+.web-card--quote span {
+    display: block;
+}
+
+.web-card--quote strong {
+    margin-top: 18px;
+}
+
+.web-step-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.web-step {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow: none;
+}
+
+.web-step__number {
+    display: inline-block;
+    margin-bottom: 18px;
+    font-family: "Syne", sans-serif;
+    font-size: 36px;
+}
+
+.web-footer {
+    background: #132238;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.web-footer__grid {
+    grid-template-columns: 1.3fr 1fr 1fr;
+    align-items: start;
+}
+
+.web-footer h5 {
+    margin-bottom: 16px;
+    color: #fff;
+    font-family: "Syne", sans-serif;
+}
+
+.web-footer__links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.web-footer__links li + li {
+    margin-top: 10px;
+}
+
+@media (max-width: 991px) {
+    .web-header__inner,
+    .web-hero__grid,
+    .web-two-col,
+    .web-footer__grid,
+    .web-card-grid,
+    .web-step-grid,
+    .web-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .web-header__inner {
+        padding: 20px 0;
+    }
+
+    .web-nav {
+        display: none;
+    }
+
+    .web-hero h1 {
+        font-size: 42px;
+    }
+
+    .web-hero__card {
+        min-height: 360px;
+    }
+}
+
+@media (max-width: 575px) {
+    .web-hero,
+    .web-section,
+    .web-footer {
+        padding: 72px 0;
+    }
+
+    .web-header__actions,
+    .web-hero__actions {
+        flex-direction: column;
+    }
+
+    .web-hero h1 {
+        font-size: 34px;
+    }
+
+    .web-hero p,
+    .web-section p,
+    .web-card p,
+    .web-step p {
+        font-size: 16px;
+    }
+}

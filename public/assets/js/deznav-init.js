@@ -73,7 +73,7 @@ function deleteAllCookie(reload = true)
 		headerBg: "color_1",
 		navheaderBg: "color_3",
 		sidebarBg: "color_3",
-		sidebarStyle: "mini",
+		sidebarStyle: "full",
 		sidebarPosition: "fixed",
 		headerPosition: "fixed",
 		containerLayout: "full",

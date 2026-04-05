@@ -1,0 +1,261 @@
+
+
+/*---========================
+    16. Wrapper css 
+=======================----*/
+
+/* Counter Wrapper */ 
+
+.counter-wrapper{
+    display: flex;
+    justify-content: flex-end;
+    & .inner-wrapper{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 1070px;
+        @extend %primary-bg;
+        padding: 39px 70px 24px;
+        @media #{$xm}{
+            padding: 39px 30px 24px;
+            width: 100%;
+            flex-direction: column;
+        }
+    }
+}
+
+/* Features Wrapper */ 
+
+.features-wrapper{
+    position: relative;
+    z-index: 1;
+    margin-top: -450px;
+    overflow: hidden;
+    @media #{$lp}{
+        margin-top: -250px;
+    }
+    @media #{$lm}{
+        margin-top: -150px;
+    }
+    @media #{$xm}{
+        margin-top: 0px;
+        background-color: $primary-color;
+    }
+    & .features-inner-wrap{
+        position: relative;
+        z-index: 1;
+        &:after{
+            position: absolute;
+            top: 0;
+            left: -30px;
+            content: '';
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            @extend %primary-bg;
+            @media #{$xm}{
+                display: none;
+            }
+        }
+    }
+    
+}
+
+/* Play Wrapper */ 
+
+.play-wrapper{
+    min-height: 650px;
+    @extend %flex-center;
+    &.overlay{
+        &:after{
+            background-color: rgba(25, 59, 30, 0.3);
+        }
+    }
+    & .video-popup{
+        width: 120px;
+        height: 120px;
+    }
+}
+
+/* Job Wrapper */ 
+
+.job-wrapper{
+    padding-top: 40px;
+    border-top: 1px solid #090808;
+}
+
+/* Fact Wrapper */ 
+
+.fact-wrapper{
+    position: relative;
+    padding: 60px 70px 20px;
+    margin-left: 40px;
+    @media #{$lp}{
+        padding: 60px 50px 20px;
+    }
+    @media #{$lm}{
+        margin-left: 0;
+    }
+    & .pattern{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.04;
+    }
+    & .single-counter-item{
+        display: flex;
+        justify-content: center;
+        & .text{
+            & h2.number{
+                @media #{$lp}{
+                    font-size: 55px;
+                }
+            }
+            & p{
+                font-size: 15px;
+            }
+        }
+    }
+}
+
+/* Testimonial Wrapper */ 
+
+.testimonial-wrapper{
+    background-color: #E1EEDD;
+    @include border-radius(30px);
+    padding: 80px 85px 86px;
+    @media #{$lp}{
+        padding: 30px 45px 36px;
+    }
+    @media #{$lm}{
+        padding: 30px 45px 36px;
+    }
+    @media #{$xss}{
+        padding: 30px 25px 36px;
+    }
+    & .single-testimonial-item{
+        & .testimonial-inner-content{
+            padding: 0;
+            & .testimonial-content{
+                & > p{
+                    font: 400 24px $heading-font;
+                    line-height: 40px;
+                    margin-bottom: 40px;
+                    @extend %heading;
+                    @media #{$xss}{
+                        font-size: 17px;
+                        line-height: 30px;
+                        margin-bottom: 20px;
+                    }
+                }
+                & .quote-title-box{
+                    border-color: rgba(9, 8, 8, 0.1);
+                    padding-top: 40px;
+                    @media #{$xss}{
+                        padding-top: 20px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* Process Wrapper */ 
+
+.process-wrapper{
+    @media #{$lp}{
+        & .container{
+            max-width: 1300px;
+            overflow: hidden;
+        }
+    }
+    & .shape{
+        position: absolute;
+        @media #{$lm}{
+            display: none;
+        }
+        &.line-shape{
+            bottom: 60px;
+            left: 70px;
+            @media #{$lp}{
+                left: 0;
+            }
+        }
+    }
+}
+
+/* Features Content Box */ 
+
+.features-one_content-box{
+    & p{
+        border-left: 5px solid $secondary-color;
+        padding-left: 50px;
+        margin-bottom: 50px;
+    }
+}
+
+/* Benefit Content */ 
+
+.benefit-content-box{
+    & ul.check-list{
+        & li{
+            &:not(:last-child){
+                margin-bottom: 26px;
+            }
+            & i{
+                @extend %secondary-color;
+            }
+        }
+    }
+}
+
+/* Cta Content */ 
+
+.cta_one-content-box{
+    @media #{$lp}{
+        max-width: 450px;
+    }
+    @media #{$lg}{
+        max-width: 350px;
+    }
+    & h2{
+        font-size: 45px;
+        line-height: 55px;
+        margin-bottom: 25px;
+        @media #{$lp}{
+            font-size: 40px;
+            line-height: 55px;
+        }
+        @media #{$lg}{
+            font-size: 22px;
+            line-height: 35px;
+        }
+        @media #{$xs}{
+            font-size: 24px;
+            line-height: 35px;
+        }
+    }
+}
+
+/* Cta Image */ 
+
+.cta_image-one{
+    & .shape{
+        position: absolute;
+        top: -47px;
+        left: -47px;
+        @include transform(rotate(-11.19deg));
+        @media #{$lm}{
+            max-width:  150px;
+            top: -20px;
+            left: -20px;
+        }
+        @media #{$xs}{
+            max-width:  120px;
+            top: -20px;
+            left: -20px;
+        }
+    }
+}

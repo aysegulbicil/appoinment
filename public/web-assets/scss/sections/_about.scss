@@ -1,0 +1,101 @@
+
+/*---========================
+        04. About css 
+=======================----*/
+
+.about-one_image-box{
+    & img{
+        border-radius: 301px 301.5px 0px 0px;
+    }
+}
+
+.about-one_content-box{
+    & img{
+        flex: 0 0 auto;
+        width: 85px;
+        border-radius: 55px;
+        @include transform(rotate(25deg));
+        margin-right: 50px;
+        height: 120px;
+        @media #{$xss}{
+            margin-right: 35px;
+        }
+    }
+    & .text{
+        & p{
+            margin-bottom: 35px;
+        }
+    }
+}
+
+.about-experience-box{
+    padding: 50px 50px 60px;
+    @extend %white-bg;
+    box-shadow: 0px 4px 60px rgba(0, 0, 0, 0.06);
+    @media #{$xs}{
+        padding: 50px 30px 60px;
+    }
+    & h3{
+        font-size: 27px;
+        line-height: 35px;
+        margin-bottom: 18px;
+        @media #{$xss}{
+            font-size: 20px;
+            line-height: 30px;
+        }
+    }
+    & p{
+        margin-bottom: 28px;
+    }
+    & ul.check-list{
+        margin-bottom: 37px;
+    }
+}
+
+
+.experience-box{
+    @extend %secondary-bg;
+    width: 450px;
+    height: 450px;
+    @include border-radius(50%);
+    @extend %flex-center;
+    display: inline-flex;
+    @media #{$xss}{
+        width: 300px;
+        height: 300px;
+    }
+    & .experience-inner-content{
+        & span.title{
+            @extend %heading;
+            font: 700 18px $body-font;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 24px;
+            & i{
+                margin-right: 20px;
+                font-size: 30px;
+            }
+        }
+        & h2.number{
+            font: 700 200px $heading-font;
+            line-height: 50px;
+            @extend %heading;
+            margin-bottom: 45px;
+        }
+        & img{
+            @media #{$xss}{
+                max-width: 120px;
+            }
+        }
+    }
+}
+
+.experience-content-box{
+    & h3{
+        font-size: 30px;
+        margin-bottom: 20px;
+    }
+    & > p{
+        margin-bottom: 25px;
+    }
+}

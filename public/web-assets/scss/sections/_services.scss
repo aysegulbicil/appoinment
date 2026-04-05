@@ -1,0 +1,112 @@
+
+/*---========================
+        05. Services css 
+=======================----*/
+
+.single-service-item{
+    @extend %white-bg;
+    box-shadow: 0px 7px 60px rgba(0, 0, 0, 0.1);
+    &:hover{
+        & .content{
+            @extend %primary-bg;
+            & h3.title{
+                @extend %white-color;
+            }
+            & p{
+                @extend %white-color;
+            }
+        }
+        & .read-more{
+            @extend %secondary-bg;
+        }
+    }
+    & .content{
+        padding: 40px 35px 33px;
+        @include transition(.3s);
+        & .icon{
+            margin-bottom: 27px;
+        }
+        & h3.title{
+            margin-bottom: 8px;
+            @media #{$lg}{
+                font-size: 20px;
+                line-height: 30px;
+            }
+        }
+    }
+    & .read-more{
+        padding: 15px 25px;
+        border-top: 1px solid rgba(15, 15, 45, 0.1);
+        @include transition(.4s);
+    }
+}
+
+
+.single-service-item-two{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @media #{$xss}{
+        flex-direction: column;
+    }
+    &:hover{
+        & .service-content{
+            @extend %primary-bg;
+            @extend %white-color;
+            & .content{
+                & h4.title{
+                    @extend %white-color;
+                }
+                & .btn-link{
+                    @extend %white-color; 
+                }
+            }
+        }
+    }
+    & .img-holder{
+        flex: 0 0 auto;
+        max-width: 370px;
+        & img{
+            border-radius: 185px 185px 0px 185px;
+            @media #{$xss}{
+                border-radius: 0;
+                width: 100%;
+            }
+        }
+        @media #{$xss}{
+            max-width: 100%;
+            width: 100%;
+        }
+    }
+    & .service-content{
+        max-width: 320px;
+        margin-left: -60px;
+        padding: 40px 40px 30px;
+        @extend %white-bg;
+        box-shadow: 0px 4px 60px rgba(0, 0, 0, 0.07);
+        @include transition(.3s);
+        @media #{$lp}{
+            margin-left: -160px;
+        }
+        @media #{$xss}{
+            max-width: 100%;
+            width: 100%;
+            margin-left: 0;
+        }
+        @media #{$sm}{
+            padding: 40px 30px 30px;
+            margin-left: -160px;
+        }
+        & .icon{
+            margin-bottom: 25px;
+        }
+        & .content{
+            & h4.title{
+                margin-bottom: 8px;
+            }
+            & p{
+                margin-bottom: 14px;
+            }
+        }
+    }
+}
