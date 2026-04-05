@@ -1,0 +1,9 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Zaten public içindeyse dokunma
+    RewriteCond %{REQUEST_URI} !^/public/
+
+    # Her şeyi public'e yönlendir
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
