@@ -10,6 +10,9 @@ $routes->get('register', 'AuthController::register');
 $routes->get('packages/select/(:segment)', 'AuthController::selectPackage/$1');
 $routes->post('register/process', 'AuthController::attemptRegister');
 $routes->post('login/process', 'AuthController::attemptLogin');
+$routes->get('verify-email', 'AuthController::verifyEmail');
+$routes->post('verify-email/process', 'AuthController::attemptVerifyEmail');
+$routes->post('verify-email/resend', 'AuthController::resendVerificationCode');
 $routes->get('logout', 'AuthController::logout');
 
 $routes->get('/', 'Public\\LandingController::index');

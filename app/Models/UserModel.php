@@ -21,6 +21,9 @@ class UserModel extends Model
         'package_code',
         'password_hash',
         'is_active',
+        'email_verified_at',
+        'email_verification_code_hash',
+        'email_verification_expires_at',
     ];
 
     protected bool $allowEmptyInserts = false;
