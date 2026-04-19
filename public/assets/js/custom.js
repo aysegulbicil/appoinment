@@ -282,8 +282,8 @@ var MotaAdmin = function(){
 			labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 			datasets: [{
 				label: 'Expense',
-				backgroundColor: '#3a7afe',
-				hoverBackgroundColor: '#3a7afe', 
+				backgroundColor: '#0f2147',
+				hoverBackgroundColor: '#0f2147', 
 				barThickness: 6,
 				
 				data: [

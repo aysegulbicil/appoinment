@@ -48,4 +48,31 @@ class BusinessModel extends Model
             ->orWhere('user_id', $userId)
             ->groupEnd();
     }
+
+    public function accessibleByUser(int $userId, string $email): self
+    {
+        $email = strtolower(trim($email));
+
+        return $this->select('businesses.*')
+            ->distinct()
+            ->join(
+                'business_staff',
+                "business_staff.business_id = businesses.id AND business_staff.status = 'active'",
+                'left'
+            )
+            ->groupStart()
+            ->where('businesses.owner_user_id', $userId)
+            ->orWhere('businesses.user_id', $userId)
+            ->orWhere('business_staff.user_id', $userId)
+            ->orWhere('business_staff.email', $email)
+            ->groupEnd();
+    }
+
+    public function ownedByUser(int $userId): self
+    {
+        return $this->groupStart()
+            ->where('businesses.owner_user_id', $userId)
+            ->orWhere('businesses.user_id', $userId)
+            ->groupEnd();
+    }
 }

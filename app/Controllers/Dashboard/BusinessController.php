@@ -22,7 +22,7 @@ class BusinessController extends BaseController
         $businessQuery = (new BusinessModel())->orderBy('id', 'DESC');
 
         if (! $this->isAdmin()) {
-            $businessQuery->forOwner($this->userId());
+            $businessQuery->accessibleByUser($this->userId(), $this->userEmail());
         }
 
         $businesses = $businessQuery->findAll();
@@ -90,10 +90,10 @@ class BusinessController extends BaseController
 
     public function show(int $id): string
     {
-        $business = $this->findOwnedBusiness($id);
+        $business = $this->findAccessibleBusiness($id);
         $tab      = (string) ($this->request->getGet('tab') ?: 'general');
 
-        if (! in_array($tab, ['general', 'web-settings', 'services', 'staff'], true)) {
+        if (! in_array($tab, ['general', 'web-settings', 'staff'], true)) {
             $tab = 'general';
         }
 
@@ -101,7 +101,6 @@ class BusinessController extends BaseController
             'pageTitle'       => 'Isletme Detayi',
             'business'        => $business,
             'webSettings'     => $this->webSettings($id),
-            'services'        => $this->businessServices($id),
             'currentTab'      => $tab,
             'categories'      => $this->categories(),
             'selectedPackage' => $this->selectedPackage(),
@@ -110,7 +109,7 @@ class BusinessController extends BaseController
 
     public function update(int $id)
     {
-        $business = $this->findOwnedBusiness($id);
+        $business = $this->findAccessibleBusiness($id);
         $section  = (string) $this->request->getPost('section');
 
         if ($section === 'web_settings') {
@@ -122,7 +121,7 @@ class BusinessController extends BaseController
 
     public function toggleStatus(int $id)
     {
-        $business = $this->findOwnedBusiness($id);
+        $business = $this->findAccessibleBusiness($id);
         $status   = ($business['status'] ?? 'active') === 'active' ? 'passive' : 'active';
 
         (new BusinessModel())->update($id, [
@@ -135,7 +134,7 @@ class BusinessController extends BaseController
 
     public function uploadEditorImage(int $id)
     {
-        $business = $this->findOwnedBusiness($id);
+        $business = $this->findAccessibleBusiness($id);
         $file     = $this->request->getFile('file');
 
         if (! $file || ! $file->isValid() || $file->hasMoved() || ! $this->isAllowedImage($file)) {
@@ -153,7 +152,7 @@ class BusinessController extends BaseController
 
     public function storeService(int $businessId)
     {
-        $business = $this->findOwnedBusiness($businessId);
+        $business = $this->findAccessibleBusiness($businessId);
 
         if (! $this->validate($this->serviceRules())) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
@@ -168,14 +167,14 @@ class BusinessController extends BaseController
             'status'            => $this->validServiceStatus((string) $this->request->getPost('status')),
         ]);
 
-        return redirect()->to(base_url('dashboard/businesses/' . $business['id'] . '?tab=services'))
+        return redirect()->to(base_url('dashboard/services?business_id=' . $business['id']))
             ->with('success', 'Hizmet eklendi.');
     }
 
     public function updateService(int $serviceId)
     {
         $service = $this->findOwnedService($serviceId);
-        $business = $this->findOwnedBusiness((int) $service['business_id']);
+        $business = $this->findAccessibleBusiness((int) $service['business_id']);
 
         if (! $this->validate($this->serviceRules())) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
@@ -189,7 +188,7 @@ class BusinessController extends BaseController
             'status'            => $this->validServiceStatus((string) $this->request->getPost('status')),
         ]);
 
-        return redirect()->to(base_url('dashboard/businesses/' . $business['id'] . '?tab=services'))
+        return redirect()->to(base_url('dashboard/services?business_id=' . $business['id']))
             ->with('success', 'Hizmet guncellendi.');
     }
 
@@ -200,7 +199,7 @@ class BusinessController extends BaseController
 
         (new BusinessServiceModel())->update($service['id'], ['status' => $status]);
 
-        return redirect()->to(base_url('dashboard/businesses/' . $service['business_id'] . '?tab=services'))
+        return redirect()->to(base_url('dashboard/services?business_id=' . $service['business_id']))
             ->with('success', 'Hizmet durumu guncellendi.');
     }
 
@@ -311,17 +310,22 @@ class BusinessController extends BaseController
         return (int) session()->get('userId');
     }
 
+    private function userEmail(): string
+    {
+        return (string) session()->get('userEmail');
+    }
+
     private function isAdmin(): bool
     {
         return (string) session()->get('userRole') === 'admin';
     }
 
-    private function findOwnedBusiness(int $id): array
+    private function findAccessibleBusiness(int $id): array
     {
-        $query = (new BusinessModel())->where('id', $id);
+        $query = (new BusinessModel())->where('businesses.id', $id);
 
         if (! $this->isAdmin()) {
-            $query->forOwner($this->userId());
+            $query->accessibleByUser($this->userId(), $this->userEmail());
         }
 
         $business = $query->first();
@@ -341,7 +345,7 @@ class BusinessController extends BaseController
             throw PageNotFoundException::forPageNotFound();
         }
 
-        $this->findOwnedBusiness((int) $service['business_id']);
+        $this->findAccessibleBusiness((int) $service['business_id']);
 
         return $service;
     }

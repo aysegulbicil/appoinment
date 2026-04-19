@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Libraries\PackageCatalog;
 use App\Libraries\MailService;
 use App\Models\UserModel;
+use App\Models\BusinessStaffModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\I18n\Time;
 
@@ -169,6 +170,7 @@ class AuthController extends BaseController
         $this->loginUser($user);
 
         $this->syncPackageToUser((int) $user['id']);
+        $this->syncStaffMemberships((int) $user['id'], (string) $user['email']);
 
         $successMessage = $this->hasPendingPackageSelection()
             ? 'Giriş başarılı. Şimdi işletme bilgilerinizi tamamlayabilirsiniz.'
@@ -236,6 +238,7 @@ class AuthController extends BaseController
         session()->remove('pendingVerificationEmail');
         $this->loginUser($user);
         $this->syncPackageToUser((int) $user['id']);
+        $this->syncStaffMemberships((int) $user['id'], (string) $user['email']);
 
         return redirect()->to($this->postAuthRedirectUrl())
             ->with('success', 'E-posta adresiniz doğrulandı.');
@@ -336,6 +339,11 @@ class AuthController extends BaseController
     private function sendVerificationCode(string $email, string $name, string $code): bool
     {
         return (new MailService())->sendVerificationCode($email, $name, $code, $this->verificationCodeTtl());
+    }
+
+    private function syncStaffMemberships(int $userId, string $email): void
+    {
+        (new BusinessStaffModel())->syncUserByEmail($userId, $email);
     }
 
     private function verificationCodeTtl(): int

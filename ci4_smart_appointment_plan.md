@@ -32,7 +32,6 @@ Uygulama iki ana bölümden oluşacak:
 - işletme paneli
 - hizmet yönetimi
 - çalışan yönetimi
-- çalışma saatleri
 - randevu yönetimi
 - ayarlar
 - temel istatistikler
@@ -71,7 +70,6 @@ Projeye başlamadan önce net olan kararlar:
 - paneline giriş yapar
 - hizmet ekler / düzenler / siler
 - çalışan ekler / düzenler / siler
-- çalışma saatlerini belirler
 - randevuları yönetir
 - temel yoğunluk verilerini görür
 
@@ -185,7 +183,6 @@ Uygulamanın temel iskeleti ayağa kalksın.
 - services
 - employees
 - employee_services
-- availabilities
 - appointments
 
 ## Tabloların mantığı
@@ -257,18 +254,6 @@ Alan örneği:
 - id
 - employee_id
 - service_id
-
-### availabilities
-Çalışanların çalışma saatleri
-
-Alan örneği:
-- id
-- business_id
-- employee_id
-- day_of_week
-- start_time
-- end_time
-- is_active
 
 ### appointments
 Randevular
@@ -383,7 +368,6 @@ Yetkilendirme düzenli olsun.
 - açıklama
 - hizmet listesi
 - çalışan listesi
-- çalışma bilgileri
 - randevu al butonu
 
 ### Randevu akışı
@@ -405,7 +389,6 @@ Kullanıcının public tarafta tüm temel işlemleri yapabilmesi.
 - dashboard home
 - services
 - employees
-- availabilities
 - appointments
 - settings
 
@@ -451,28 +434,7 @@ Her işletme kendi çalışanlarını yönetebilsin.
 
 ---
 
-# Aşama 10 — Çalışma Saatleri / Müsaitlik Yapısı
-
-Bu proje için en kritik modüllerden biri.
-
-## Yapılacaklar
-- çalışan bazlı müsaitlik girişi
-- haftanın günlerine göre çalışma saatleri
-- aktif / pasif kontrolü
-
-## Örnek
-Pazartesi:
-- 09:00 - 18:00
-
-Salı:
-- 10:00 - 17:00
-
-## Hedef
-Sistemin slot üretmesi için temel veri oluşsun.
-
----
-
-# Aşama 11 — Randevu Algoritmasının Temeli
+# Aşama 10 — Randevu Algoritmasının Temeli
 
 Bu kısmı ayrı bir servis veya library mantığında yazman daha temiz olur.
 
@@ -486,7 +448,6 @@ Sistem şu verilere bakacak:
 - seçilen hizmet
 - seçilen çalışan
 - hizmet süresi
-- çalışanın müsaitliği
 - mevcut randevular
 
 ## Kurallar
@@ -498,7 +459,7 @@ Sistem şu verilere bakacak:
 
 ## Örnek
 Hizmet süresi: 30 dakika  
-Çalışma aralığı: 09:00 - 12:00
+Randevu aralığı: 09:00 - 12:00
 
 Üretilen slotlar:
 - 09:00
@@ -531,7 +492,7 @@ Randevu sisteminin çekirdeği çalışsın.
 - hizmet aktif mi
 - çalışan aktif mi
 - seçilen tarih geçerli mi
-- slot gerçekten müsait mi
+- randevu zamanı uygun mu
 
 ## Hedef
 Kullanıcı başarılı şekilde randevu oluşturabilsin.
@@ -635,7 +596,6 @@ CI4 içinde route yapısını baştan düzenli kur.
 - `/dashboard`
 - `/dashboard/services`
 - `/dashboard/employees`
-- `/dashboard/availabilities`
 - `/dashboard/appointments`
 - `/dashboard/settings`
 
@@ -661,7 +621,6 @@ Route karmaşasını baştan önlemek.
 - DashboardController
 - ServiceController
 - EmployeeController
-- AvailabilityController
 - BusinessAppointmentController
 - SettingsController
 
@@ -679,7 +638,6 @@ Controller sorumlulukları net olsun.
 - ServiceModel
 - EmployeeModel
 - EmployeeServiceModel
-- AvailabilityModel
 - AppointmentModel
 
 ## Hedef
@@ -704,7 +662,6 @@ Views/dashboard/
  ├── home/
  ├── services/
  ├── employees/
- ├── availabilities/
  ├── appointments/
  └── settings/
 ```
@@ -740,12 +697,10 @@ Her modülü yaptıktan sonra test et.
 2. işletme oluşturma çalışıyor mu
 3. hizmet CRUD çalışıyor mu
 4. çalışan CRUD çalışıyor mu
-5. müsaitlik kaydı çalışıyor mu
-6. slotlar doğru üretiliyor mu
-7. randevu oluşturuluyor mu
-8. çakışma engelleniyor mu
-9. kullanıcı kendi randevularını görüyor mu
-10. işletme sadece kendi verisini görüyor mu
+5. randevu oluşturuluyor mu
+6. çakışma engelleniyor mu
+7. kullanıcı kendi randevularını görüyor mu
+8. işletme sadece kendi verisini görüyor mu
 
 ## Hedef
 Sorunları erken yakalamak.
@@ -816,7 +771,6 @@ Projeyi profesyonel göstermek.
 - [ ] dashboard ana sayfa
 - [ ] hizmet yönetimi
 - [ ] çalışan yönetimi
-- [ ] müsaitlik yönetimi
 - [ ] randevu yönetimi
 - [ ] ayarlar
 
@@ -867,7 +821,6 @@ Bu projede seni güçlü gösterecek şey:
 - düzenli mimari
 - temiz veritabanı
 - doğru auth
-- çalışan slot sistemi
 - çakışma kontrolü
 - kullanıcı deneyimi
 

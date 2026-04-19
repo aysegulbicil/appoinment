@@ -27,6 +27,7 @@
 	<link rel="stylesheet" href="./vendor/chartist/css/chartist.min.css">
 	<link href="vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet">
+	<link href="css/panel-custom.css" rel="stylesheet">
 	<link href="https://cdn.lineicons.com/2.0/LineIcons.css" rel="stylesheet">
     <?php if (! empty($pageStyles ?? '')): ?>
         <?= $pageStyles ?>

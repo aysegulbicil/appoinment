@@ -40,4 +40,20 @@ class MailService
             ]
         );
     }
+
+    public function sendStaffInvitation(string $to, string $name, string $businessName, string $role): bool
+    {
+        return $this->sendTemplate(
+            $to,
+            $businessName . ' işletmesine davet edildiniz',
+            'emails/staff_invitation',
+            [
+                'name'         => $name,
+                'businessName' => $businessName,
+                'role'         => $role,
+                'loginUrl'     => base_url('login'),
+                'registerUrl'  => base_url('register'),
+            ]
+        );
+    }
 }

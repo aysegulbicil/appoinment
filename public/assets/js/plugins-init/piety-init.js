@@ -38,7 +38,7 @@ Piety chart
 
     
     $("span.pie").peity("pie", {
-        fill: ['#3a7afe', 'rgba(58, 122, 254, .3)'], 
+        fill: ['#0f2147', 'rgba(58, 122, 254, .3)'], 
         width: "100",
         height: "100"
     });    
@@ -53,7 +53,7 @@ Piety chart
     
     $(".peity-line").peity("line", {
         fill: ["rgba(58, 122, 254, .5)"], 
-        stroke: '#3a7afe', 
+        stroke: '#0f2147', 
         width: "100%",
         height: "100"
     });
@@ -76,20 +76,20 @@ Piety chart
     });
     
     $(".bar").peity("bar", {
-        fill: ["#3a7afe", "#10ca93", "#ff9f00"],  
+        fill: ["#0f2147", "#10ca93", "#ff9f00"],  
         width: "100%",
         height: "100",
 	});
     
 	$(".bar1").peity("bar", {
-        fill: ["#3a7afe", "#10ca93", "#ff9f00"],    
+        fill: ["#0f2147", "#10ca93", "#ff9f00"],    
         //width: "100%",
         width: getGraphBlockSize('.bar1'),
         height: "140"
     });
     
     $(".bar-colours-1").peity("bar", {
-        fill: ["#3a7afe", "#10ca93", "#ff9f00"],  
+        fill: ["#0f2147", "#10ca93", "#ff9f00"],  
         width: "100",
         height: "100"
     });
@@ -119,7 +119,7 @@ Piety chart
     });
     
     $(".pie-colours-2").peity("pie", {
-        fill: ["#3a7afe", "#10ca93", "#f25767", "#ff9f00", "#00afef"],
+        fill: ["#0f2147", "#10ca93", "#f25767", "#ff9f00", "#00afef"],
         width: "100",
         height: "100"
     });

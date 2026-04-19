@@ -12,7 +12,9 @@ class AppointmentController extends BaseController
     {
         $appointmentQuery = (new AppointmentModel())
             ->select('appointments.*, businesses.name AS business_name, businesses.owner_user_id, businesses.user_id AS business_user_id, business_services.title AS service_title')
+            ->distinct()
             ->join('businesses', 'businesses.id = appointments.business_id', 'left')
+            ->join('business_staff', "business_staff.business_id = businesses.id AND business_staff.status = 'active'", 'left')
             ->join('business_services', 'business_services.id = appointments.business_service_id', 'left')
             ->orderBy('appointments.appointment_date', 'DESC')
             ->orderBy('appointments.appointment_time', 'DESC');
@@ -22,6 +24,8 @@ class AppointmentController extends BaseController
                 ->groupStart()
                 ->where('businesses.owner_user_id', $this->userId())
                 ->orWhere('businesses.user_id', $this->userId())
+                ->orWhere('business_staff.user_id', $this->userId())
+                ->orWhere('business_staff.email', $this->userEmail())
                 ->groupEnd();
         }
 
@@ -66,6 +70,7 @@ class AppointmentController extends BaseController
         $query = (new AppointmentModel())
             ->select('appointments.*, businesses.owner_user_id, businesses.user_id AS business_user_id')
             ->join('businesses', 'businesses.id = appointments.business_id', 'left')
+            ->join('business_staff', "business_staff.business_id = businesses.id AND business_staff.status = 'active'", 'left')
             ->where('appointments.id', $id);
 
         if (! $this->isAdmin()) {
@@ -73,6 +78,8 @@ class AppointmentController extends BaseController
                 ->groupStart()
                 ->where('businesses.owner_user_id', $this->userId())
                 ->orWhere('businesses.user_id', $this->userId())
+                ->orWhere('business_staff.user_id', $this->userId())
+                ->orWhere('business_staff.email', $this->userEmail())
                 ->groupEnd();
         }
 
@@ -96,6 +103,11 @@ class AppointmentController extends BaseController
     private function userId(): int
     {
         return (int) session()->get('userId');
+    }
+
+    private function userEmail(): string
+    {
+        return (string) session()->get('userEmail');
     }
 
     private function isAdmin(): bool
