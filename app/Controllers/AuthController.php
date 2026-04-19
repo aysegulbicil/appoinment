@@ -87,6 +87,7 @@ class AuthController extends BaseController
         $userId = $userModel->insert([
             'name'          => (string) $this->request->getPost('full_name'),
             'email'         => (string) $this->request->getPost('email'),
+            'role'          => 'business_owner',
             'phone'         => (string) $this->request->getPost('phone'),
             'company_name'  => (string) $this->request->getPost('company_name'),
             'package_code'  => $package['code'],
@@ -98,6 +99,7 @@ class AuthController extends BaseController
             'userId'          => $userId,
             'userName'        => (string) $this->request->getPost('full_name'),
             'userEmail'       => (string) $this->request->getPost('email'),
+            'userRole'        => 'business_owner',
             'userPackageCode' => $package['code'],
             'userPackageName' => $package['name'],
             'isLoggedIn'      => true,
@@ -137,6 +139,7 @@ class AuthController extends BaseController
             'userId'          => $user['id'],
             'userName'        => $user['name'],
             'userEmail'       => $user['email'],
+            'userRole'        => $user['role'] ?? 'business_owner',
             'userPackageCode' => $user['package_code'] ?? null,
             'isLoggedIn'      => true,
         ]);

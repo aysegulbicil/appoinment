@@ -5,6 +5,7 @@ namespace App\Controllers\Dashboard;
 use App\Controllers\BaseController;
 use App\Libraries\PackageCatalog;
 use App\Models\BusinessModel;
+use App\Models\BusinessServiceModel;
 use App\Models\BusinessWebSettingModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\Files\UploadedFile;
@@ -18,10 +19,13 @@ class BusinessController extends BaseController
 
     public function index(): string
     {
-        $businesses = (new BusinessModel())
-            ->forOwner($this->userId())
-            ->orderBy('id', 'DESC')
-            ->findAll();
+        $businessQuery = (new BusinessModel())->orderBy('id', 'DESC');
+
+        if (! $this->isAdmin()) {
+            $businessQuery->forOwner($this->userId());
+        }
+
+        $businesses = $businessQuery->findAll();
 
         return $this->render('dashboard/businesses/index', [
             'pageTitle'       => 'Isletmelerim',
@@ -97,6 +101,7 @@ class BusinessController extends BaseController
             'pageTitle'       => 'Isletme Detayi',
             'business'        => $business,
             'webSettings'     => $this->webSettings($id),
+            'services'        => $this->businessServices($id),
             'currentTab'      => $tab,
             'categories'      => $this->categories(),
             'selectedPackage' => $this->selectedPackage(),
@@ -144,6 +149,59 @@ class BusinessController extends BaseController
         return $this->response->setJSON([
             'location' => base_url($path),
         ]);
+    }
+
+    public function storeService(int $businessId)
+    {
+        $business = $this->findOwnedBusiness($businessId);
+
+        if (! $this->validate($this->serviceRules())) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        (new BusinessServiceModel())->insert([
+            'business_id'       => $business['id'],
+            'title'             => trim((string) $this->request->getPost('title')),
+            'description'       => trim((string) $this->request->getPost('description')),
+            'duration_minutes'  => $this->nullableInt('duration_minutes'),
+            'price'             => $this->nullableDecimal('price'),
+            'status'            => $this->validServiceStatus((string) $this->request->getPost('status')),
+        ]);
+
+        return redirect()->to(base_url('dashboard/businesses/' . $business['id'] . '?tab=services'))
+            ->with('success', 'Hizmet eklendi.');
+    }
+
+    public function updateService(int $serviceId)
+    {
+        $service = $this->findOwnedService($serviceId);
+        $business = $this->findOwnedBusiness((int) $service['business_id']);
+
+        if (! $this->validate($this->serviceRules())) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        (new BusinessServiceModel())->update($service['id'], [
+            'title'             => trim((string) $this->request->getPost('title')),
+            'description'       => trim((string) $this->request->getPost('description')),
+            'duration_minutes'  => $this->nullableInt('duration_minutes'),
+            'price'             => $this->nullableDecimal('price'),
+            'status'            => $this->validServiceStatus((string) $this->request->getPost('status')),
+        ]);
+
+        return redirect()->to(base_url('dashboard/businesses/' . $business['id'] . '?tab=services'))
+            ->with('success', 'Hizmet guncellendi.');
+    }
+
+    public function toggleServiceStatus(int $serviceId)
+    {
+        $service = $this->findOwnedService($serviceId);
+        $status = ($service['status'] ?? 'active') === 'active' ? 'passive' : 'active';
+
+        (new BusinessServiceModel())->update($service['id'], ['status' => $status]);
+
+        return redirect()->to(base_url('dashboard/businesses/' . $service['business_id'] . '?tab=services'))
+            ->with('success', 'Hizmet durumu guncellendi.');
     }
 
     private function updateGeneral(array $business)
@@ -253,18 +311,47 @@ class BusinessController extends BaseController
         return (int) session()->get('userId');
     }
 
+    private function isAdmin(): bool
+    {
+        return (string) session()->get('userRole') === 'admin';
+    }
+
     private function findOwnedBusiness(int $id): array
     {
-        $business = (new BusinessModel())
-            ->forOwner($this->userId())
-            ->where('id', $id)
-            ->first();
+        $query = (new BusinessModel())->where('id', $id);
+
+        if (! $this->isAdmin()) {
+            $query->forOwner($this->userId());
+        }
+
+        $business = $query->first();
 
         if ($business === null) {
             throw PageNotFoundException::forPageNotFound();
         }
 
         return $business;
+    }
+
+    private function findOwnedService(int $serviceId): array
+    {
+        $service = (new BusinessServiceModel())->find($serviceId);
+
+        if ($service === null) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        $this->findOwnedBusiness((int) $service['business_id']);
+
+        return $service;
+    }
+
+    private function businessServices(int $businessId): array
+    {
+        return (new BusinessServiceModel())
+            ->where('business_id', $businessId)
+            ->orderBy('id', 'DESC')
+            ->findAll();
     }
 
     private function webSettings(int $businessId): array
@@ -406,6 +493,36 @@ class BusinessController extends BaseController
             'district'          => 'permit_empty|max_length[100]',
             'short_description' => 'permit_empty|max_length[1000]',
         ];
+    }
+
+    private function serviceRules(): array
+    {
+        return [
+            'title'            => 'required|min_length[2]|max_length[160]',
+            'description'      => 'permit_empty|max_length[1000]',
+            'duration_minutes' => 'permit_empty|integer|greater_than[0]',
+            'price'            => 'permit_empty|decimal',
+            'status'           => 'permit_empty|in_list[active,passive]',
+        ];
+    }
+
+    private function validServiceStatus(string $status): string
+    {
+        return in_array($status, ['active', 'passive'], true) ? $status : 'active';
+    }
+
+    private function nullableInt(string $field): ?int
+    {
+        $value = trim((string) $this->request->getPost($field));
+
+        return $value === '' ? null : (int) $value;
+    }
+
+    private function nullableDecimal(string $field): ?string
+    {
+        $value = trim(str_replace(',', '.', (string) $this->request->getPost($field)));
+
+        return $value === '' ? null : $value;
     }
 
     private function resolveCategory(): string

@@ -7,6 +7,9 @@ $introImage   = ($webSettings['intro_image'] ?? '') !== '' ? $webSettings['intro
 $summaryText  = $webSettings['short_intro'] ?? $business['short_description'] ?? '';
 $detailTitle  = $webSettings['page_title'] ?? $business['name'];
 $galleryItems = $galleryImages ?? [];
+$services     = $services ?? [];
+$appointmentErrors = session()->getFlashdata('appointment_errors') ?? [];
+$hasAppointmentErrors = $appointmentErrors !== [];
 ?>
 
 <section class="page-banner overlay pt-170 pb-170 bg_cover" style="background-image: url('<?= base_url($coverImage) ?>');">
@@ -43,9 +46,20 @@ $galleryItems = $galleryImages ?? [];
                         <?php else: ?>
                             <p>Bu isletme icin detayli tanitim icerigi panelden guncelleniyor.</p>
                         <?php endif; ?>
+                        <button type="button" class="main-btn filled-btn mt-3" data-bs-toggle="modal" data-bs-target="#appointmentModal">
+                            Randevu Al
+                        </button>
                     </div>
                 </div>
             </div>
+
+            <?php if (session()->getFlashdata('appointment_success')): ?>
+                <div class="alert alert-success mb-4"><?= esc(session()->getFlashdata('appointment_success')) ?></div>
+            <?php endif; ?>
+
+            <?php if ($hasAppointmentErrors): ?>
+                <div class="alert alert-danger mb-4">Randevu formunda eksik veya hatali alanlar var.</div>
+            <?php endif; ?>
 
             <div class="portfolio-info-area business-info-area gray-bg mb-80 wow fadeInUp">
                 <h3>İşletme Bilgileri</h3>
@@ -57,7 +71,7 @@ $galleryItems = $galleryImages ?? [];
                         <li><span class="title">E-posta</span><span><?= esc($business['email'] ?: '-') ?></span></li>
                     <?php endif; ?>
                     <?php if (($webSettings['show_prices'] ?? true)): ?>
-                        <li><span class="title">Randevu</span><span>Fiyat ve hizmet detayları panel bağlantılarıyla yayınlanacak</span></li>
+                        <li><span class="title">Randevu</span><span><?= $services === [] ? 'Hizmet listesi hazirlaniyor' : 'Online randevu talebi alinabilir' ?></span></li>
                     <?php endif; ?>
                 </ul>
             </div>
@@ -111,6 +125,76 @@ $galleryItems = $galleryImages ?? [];
     </div>
 </section>
 
+<div class="modal fade" id="appointmentModal" tabindex="-1" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content business-appointment-modal">
+            <div class="modal-header">
+                <h5 class="modal-title" id="appointmentModalLabel"><?= esc($business['name']) ?> - Randevu Al</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <form action="<?= base_url('businesses/' . $business['id'] . '/appointments') ?>" method="post">
+                <?= csrf_field() ?>
+                <div class="modal-body">
+                    <?php if ($services === []): ?>
+                        <div class="alert alert-warning mb-0">Bu isletme icin henuz aktif hizmet bulunmuyor.</div>
+                    <?php else: ?>
+                        <div class="row g-3">
+                            <div class="col-md-12 appointment-service-field">
+                                <label class="form-label" for="appointment-service">Hizmet</label>
+                                <select id="appointment-service" name="business_service_id" class="form-control appointment-service-select<?= isset($appointmentErrors['business_service_id']) ? ' is-invalid' : '' ?>" required>
+                                    <option value="">Hizmet secin</option>
+                                    <?php foreach ($services as $service): ?>
+                                        <option value="<?= esc($service['id']) ?>" <?= (string) old('business_service_id') === (string) $service['id'] ? 'selected' : '' ?>>
+                                            <?= esc($service['title']) ?>
+                                            <?php if (! empty($service['duration_minutes'])): ?> - <?= esc($service['duration_minutes']) ?> dk<?php endif; ?>
+                                            <?php if ($service['price'] !== null && $service['price'] !== ''): ?> - <?= esc(number_format((float) $service['price'], 2, ',', '.')) ?> TL<?php endif; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <?php if (isset($appointmentErrors['business_service_id'])): ?><div class="invalid-feedback"><?= esc($appointmentErrors['business_service_id']) ?></div><?php endif; ?>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="appointment-name">Ad Soyad</label>
+                                <input id="appointment-name" name="customer_name" type="text" class="form-control<?= isset($appointmentErrors['customer_name']) ? ' is-invalid' : '' ?>" value="<?= esc(old('customer_name')) ?>" required>
+                                <?php if (isset($appointmentErrors['customer_name'])): ?><div class="invalid-feedback"><?= esc($appointmentErrors['customer_name']) ?></div><?php endif; ?>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="appointment-phone">Telefon</label>
+                                <input id="appointment-phone" name="customer_phone" type="tel" class="form-control<?= isset($appointmentErrors['customer_phone']) ? ' is-invalid' : '' ?>" value="<?= esc(old('customer_phone')) ?>" required>
+                                <?php if (isset($appointmentErrors['customer_phone'])): ?><div class="invalid-feedback"><?= esc($appointmentErrors['customer_phone']) ?></div><?php endif; ?>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="appointment-email">E-posta</label>
+                                <input id="appointment-email" name="customer_email" type="email" class="form-control<?= isset($appointmentErrors['customer_email']) ? ' is-invalid' : '' ?>" value="<?= esc(old('customer_email')) ?>" required>
+                                <?php if (isset($appointmentErrors['customer_email'])): ?><div class="invalid-feedback"><?= esc($appointmentErrors['customer_email']) ?></div><?php endif; ?>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label" for="appointment-date">Tarih</label>
+                                <input id="appointment-date" name="appointment_date" type="date" min="<?= esc(date('Y-m-d')) ?>" class="form-control<?= isset($appointmentErrors['appointment_date']) ? ' is-invalid' : '' ?>" value="<?= esc(old('appointment_date')) ?>" required>
+                                <?php if (isset($appointmentErrors['appointment_date'])): ?><div class="invalid-feedback"><?= esc($appointmentErrors['appointment_date']) ?></div><?php endif; ?>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label" for="appointment-time">Saat</label>
+                                <input id="appointment-time" name="appointment_time" type="time" class="form-control<?= isset($appointmentErrors['appointment_time']) ? ' is-invalid' : '' ?>" value="<?= esc(old('appointment_time')) ?>" required>
+                                <?php if (isset($appointmentErrors['appointment_time'])): ?><div class="invalid-feedback"><?= esc($appointmentErrors['appointment_time']) ?></div><?php endif; ?>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label" for="appointment-note">Not</label>
+                                <textarea id="appointment-note" name="note" rows="4" class="form-control<?= isset($appointmentErrors['note']) ? ' is-invalid' : '' ?>"><?= esc(old('note')) ?></textarea>
+                                <?php if (isset($appointmentErrors['note'])): ?><div class="invalid-feedback"><?= esc($appointmentErrors['note']) ?></div><?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Vazgec</button>
+                    <button type="submit" class="btn btn-primary" <?= $services === [] ? 'disabled' : '' ?>>Randevu Talebi Gonder</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <style>
 .business-detail-content img {
     max-width: 100%;
@@ -157,5 +241,69 @@ $galleryItems = $galleryImages ?? [];
 .business-info-area > ul > li span.title:after {
     display: none;
 }
+
+.business-appointment-modal .form-label {
+    color: #1f2933;
+    font-weight: 600;
+}
+
+.business-appointment-modal .form-control {
+    border-color: #d7dde8;
+    min-height: 48px;
+}
+
+.business-appointment-modal .appointment-service-field {
+    position: relative;
+    z-index: 3;
+}
+
+.business-appointment-modal .appointment-service-select {
+    width: 100%;
+}
+
+.business-appointment-modal .nice-select {
+    background-color: #fff;
+    border-color: #d7dde8;
+    border-radius: 4px;
+    box-sizing: border-box;
+    clear: both;
+    display: block;
+    float: none;
+    height: 48px;
+    line-height: 46px;
+    margin-top: 0;
+    padding-left: 14px;
+    padding-right: 34px;
+    width: 100%;
+}
+
+.business-appointment-modal .nice-select .current {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.business-appointment-modal .nice-select .list {
+    max-height: 240px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.business-appointment-modal textarea.form-control {
+    min-height: 120px;
+}
 </style>
+
+<?php if ($hasAppointmentErrors): ?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var modalElement = document.getElementById('appointmentModal');
+    if (modalElement && window.bootstrap && bootstrap.Modal) {
+        bootstrap.Modal.getOrCreateInstance(modalElement).show();
+    }
+});
+</script>
+<?php endif; ?>
 <?= $this->endSection() ?>
