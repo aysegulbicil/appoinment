@@ -1,0 +1,170 @@
+
+
+/*---========================
+    11. Faq css 
+=======================----*/
+
+.accordion-card{
+    & .accordion-header{
+        & h6.accordion-title{
+            display: flex;
+            align-items: center;
+            font: 700 20px $heading-font;
+            line-height: 27px;
+            cursor: pointer;
+            border-bottom: 1px solid $title-color;
+            padding-bottom: 19px;
+            @media #{$lg}{
+                font-size: 16px;
+            }
+            @media #{$xs}{
+                font-size: 16px;
+            }
+            & span.number{
+                @extend %secondary-color;
+                margin-right: 5px;
+            }
+            &:after{
+                content: '\f061';
+                font-family: "Font Awesome 5 Pro";
+                font-weight: 400;
+                font-size: 18px;
+                margin-left: auto;
+                transform: rotate(-45deg);
+                @include transition(.4s);
+            }
+            &[aria-expanded=true]{
+                &:after{
+                    content: '\f063';
+                    transform: rotate(-45deg);
+                    @extend %secondary-color;
+                }
+            }
+        }
+    }
+    & .accordion-body{
+        padding: 0;
+        padding-top: 16px;
+    }
+}
+
+.accordion-card-two{
+    padding: 22px 30px 20px;
+    @extend %white-bg;
+    box-shadow: 0px 4px 60px 30px rgba(0, 0, 0, 0.03);
+    & .accordion-header{
+        & h6.accordion-title{
+            display: flex;
+            align-items: center;
+            line-height: 27px;
+            cursor: pointer;
+            border-bottom: 1px solid transparent;
+            @include transition(.3s);
+            @media #{$xss}{
+                align-items: flex-start;
+            }
+            & span.number{
+                @extend %heading;
+                margin-right: 5px;
+            }
+            &:after{
+                content: '\f061';
+                font-family: "Font Awesome 5 Pro";
+                font-weight: 400;
+                font-size: 18px;
+                margin-left: auto;
+                transform: rotate(-45deg);
+                @include transition(.4s);
+            }
+            &[aria-expanded=true]{
+                padding-bottom: 15px;
+                border-color: $title-color;
+                & span.number{
+                    @extend %secondary-color;
+                }
+                &:after{
+                    content: '\f063';
+                    @extend %secondary-color;
+                    transform: rotate(-45deg);
+                }
+            }
+        }
+    }
+    & .accordion-content{
+        padding-top: 21px;
+    }
+}
+
+.accordion-card-three{
+    padding: 0 25px;
+    @extend %white-bg;
+    box-shadow: 0px 4px 60px rgba(0, 0, 0, 0.07);
+    .accordion-header{
+        & .accordion-title{
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 15px 0;
+            font: 600 18px $heading-font;
+            border-bottom: 1px solid transparent;
+            & span.number{
+                @extend %secondary-color;
+            }
+            &:after{
+                content: '\f061';
+                font-family: "Font Awesome 5 Pro";
+                font-weight: 400;
+                font-size: 18px;
+                margin-left: auto;
+                @include transition(.4s);
+            }
+            &[aria-expanded=true]{
+                border-color: #0F0F2D;
+                &:after{
+                    content: '\f063';
+                }
+            }
+        }
+        
+    }
+    & .accordion-body{
+        padding: 10px 0;
+    }
+}
+
+/* Faq Content */ 
+
+.faq-content-box{
+    &.pl-lg-50 {
+        @media #{$lp}{
+            padding-left: 0;
+        }
+    }
+}
+
+/* Faq Image */ 
+
+.faq_one-image {
+    margin-left: -10vw;
+    @media #{$lm}{
+        margin-left: 0;
+    }
+    & img{
+        width: 100%;
+    }
+}
+
+/* Benefit Image */ 
+
+.benefit_one-image{
+    margin-right: -10vw;
+    @media #{$lp}{
+        margin-right: -5vw;
+    }
+    @media #{$lm}{
+        margin-right: 0;
+    }
+    & img{
+        width: 100%;
+    }
+}

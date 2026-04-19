@@ -1,0 +1,180 @@
+
+
+/*---========================
+    17. Sections css 
+=======================----*/
+
+/* About Section */ 
+
+.about-section{
+    .about-experience-box{
+        position: relative;
+        margin-bottom: -300px;
+    }
+}
+
+.about_area-one{
+    position: relative;
+    z-index: 1;
+    &:before{
+        position: absolute;
+        top: -30px;
+        left: 0;
+        content: '';
+        width: 100%;
+        height: 100%;
+        @extend %secondary-bg;
+        clip-path: polygon(0 0, 100% 6%, 100% 100%, 0% 100%);
+        z-index: -1;
+    }
+    &:after{
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: '';
+        width: 100%;
+        height: 100%;
+        @extend %blue-bg;
+        clip-path: polygon(0 5%, 100% 0, 100% 100%, 0% 100%);
+        z-index: -1;
+    }
+    & .counter-wrapper{
+        margin-top: -150px;
+        position: relative;
+        z-index: 1;
+        @media #{$lp}{
+            margin-top: -80px;
+        }
+        @media #{$lm}{
+            margin-top: 0;
+        }
+    }
+    & .animate-headline{
+        position: relative;
+        margin-top: -70px;
+    }
+}
+
+/* Team Section */
+
+.team_area-one{
+    padding-bottom: 253px;
+    & .shape{
+        position: absolute;
+        z-index: -1;
+        & img{
+            opacity: .07;
+        }
+        &.shape-one{
+            bottom: 0;
+            left: 0;
+        }
+        &.shape-two{
+            top: 0;
+            right: 0;
+        }
+    }
+}
+
+
+/* Team Section */
+
+.team_area-two{
+    & .shape{
+        position: absolute;
+        z-index: -1;
+        & img{
+            opacity: .07;
+        }
+        &.shape-one{
+            bottom: 0;
+            left: 0;
+        }
+        &.shape-two{
+            top: 0;
+            right: 0;
+        }
+    }
+}
+
+/* Cta Section */
+
+.cta_area-one{
+    & .cta-wrapper{
+        padding: 90px 100px 45px;
+        margin-left: 320px;
+        margin-top: -170px;
+        position: relative;
+        z-index: 2;
+        @media #{$lp}{
+            padding: 80px 70px 45px;
+            margin-left: 0;
+        }
+        @media #{$lg}{
+            padding: 50px 50px 15px;
+        }
+        @media #{$lm}{
+            margin-left: 0;
+        }
+        @media #{$xs}{
+            padding: 50px 30px 15px;
+        }
+        &.yellow-bg{
+            & .main-btn{
+                &.primary-btn{
+                    &:hover{
+                        @extend %black-bg;
+                        @extend %white-color;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.cta_area-two{
+    position: relative;
+    z-index: 1;
+    & .headline-text{
+        position: relative;
+        z-index: -1;
+        margin-top: -100px;
+        & .animate-text{
+            & span{
+                &.text{
+                    color: rgba(15, 15, 45, 0.05);
+                }
+            }
+        }
+    }
+    &.green-bg{
+        & .headline-text{
+            & .animate-text{
+                & span{
+                    &.text{
+                        color: rgba(255, 255, 255, 0.05);
+                    }
+                }
+            }
+        }
+        & .cta_one-content-box{
+            & .main-btn{
+                &.secondary-btn{
+                    &:hover{
+                        @extend %white-bg;
+                        @extend %heading;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.cta_area-three{
+    &.overlay{
+        &:after{
+            background-color: rgba(9, 8, 8, 0.65);
+            mix-blend-mode: multiply;
+        }
+    }
+}

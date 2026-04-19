@@ -17,6 +17,7 @@ class UserModel extends Model
         'email',
         'phone',
         'company_name',
+        'package_code',
         'password_hash',
         'is_active',
     ];

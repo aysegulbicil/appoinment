@@ -1,0 +1,65 @@
+$flaticon_ensuran-font: "flaticon_ensuran";
+
+@font-face {
+    font-family: $flaticon_ensuran-font;
+    src: url("./flaticon_ensuran.ttf?c0ee43424c9db6ba0e38488554b1ddc1") format("truetype"),
+url("./flaticon_ensuran.woff?c0ee43424c9db6ba0e38488554b1ddc1") format("woff"),
+url("./flaticon_ensuran.woff2?c0ee43424c9db6ba0e38488554b1ddc1") format("woff2"),
+url("./flaticon_ensuran.eot?c0ee43424c9db6ba0e38488554b1ddc1#iefix") format("embedded-opentype"),
+url("./flaticon_ensuran.svg?c0ee43424c9db6ba0e38488554b1ddc1#flaticon_ensuran") format("svg");
+}
+
+i[class^="flaticon-"]:before, i[class*=" flaticon-"]:before {
+    font-family: flaticon_ensuran !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+$flaticon_ensuran-map: (
+    "insurance": "\f101",
+    "shield": "\f102",
+    "home-insurance": "\f103",
+    "insurance-policy": "\f104",
+    "save-money": "\f105",
+    "investor": "\f106",
+    "right-arrow": "\f107",
+    "right-arrow-1": "\f108",
+    "check": "\f109",
+    "cross": "\f10a",
+);
+
+.flaticon-insurance:before {
+    content: map-get($flaticon_ensuran-map, "insurance");
+}
+.flaticon-shield:before {
+    content: map-get($flaticon_ensuran-map, "shield");
+}
+.flaticon-home-insurance:before {
+    content: map-get($flaticon_ensuran-map, "home-insurance");
+}
+.flaticon-insurance-policy:before {
+    content: map-get($flaticon_ensuran-map, "insurance-policy");
+}
+.flaticon-save-money:before {
+    content: map-get($flaticon_ensuran-map, "save-money");
+}
+.flaticon-investor:before {
+    content: map-get($flaticon_ensuran-map, "investor");
+}
+.flaticon-right-arrow:before {
+    content: map-get($flaticon_ensuran-map, "right-arrow");
+}
+.flaticon-right-arrow-1:before {
+    content: map-get($flaticon_ensuran-map, "right-arrow-1");
+}
+.flaticon-check:before {
+    content: map-get($flaticon_ensuran-map, "check");
+}
+.flaticon-cross:before {
+    content: map-get($flaticon_ensuran-map, "cross");
+}

@@ -3,10 +3,10 @@ $contentView = $contentView ?? 'layouts/main';
 $contentData = $contentData ?? [];
 
 $html = implode('', [
-    view('layouts/header'),
-    view('layouts/sidebar'),
+    view('layouts/header', $contentData),
+    view('layouts/sidebar_dashboard', $contentData),
     view($contentView, $contentData),
-    view('layouts/footer'),
+    view('layouts/footer', $contentData),
 ]);
 
 $assetBase = rtrim(base_url('assets'), '/');

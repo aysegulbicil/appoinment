@@ -7,15 +7,35 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('login', 'AuthController::login');
 $routes->get('register', 'AuthController::register');
+$routes->get('packages/select/(:segment)', 'AuthController::selectPackage/$1');
 $routes->post('register/process', 'AuthController::attemptRegister');
 $routes->post('login/process', 'AuthController::attemptLogin');
 $routes->get('logout', 'AuthController::logout');
 
 $routes->get('/', 'Public\\LandingController::index');
+$routes->get('businesses', 'Public\\BusinessController::index');
+$routes->get('businesses/(:segment)', 'Public\\BusinessController::show/$1');
+
+$routes->group('dashboard', ['namespace' => 'App\\Controllers\\Dashboard', 'filter' => 'auth'], static function ($routes) {
+    $routes->get('', 'BusinessController::index');
+    $routes->get('businesses', 'BusinessController::index');
+    $routes->get('businesses/create', 'BusinessController::create');
+    $routes->post('businesses/store', 'BusinessController::store');
+    $routes->get('businesses/(:num)', 'BusinessController::show/$1');
+    $routes->post('businesses/(:num)/update', 'BusinessController::update/$1');
+    $routes->post('businesses/(:num)/editor-image', 'BusinessController::uploadEditorImage/$1');
+    $routes->post('businesses/(:num)/toggle-status', 'BusinessController::toggleStatus/$1');
+    $routes->get('services', 'SectionController::show/services');
+    $routes->get('employees', 'SectionController::show/employees');
+    $routes->get('availabilities', 'SectionController::show/availabilities');
+    $routes->get('appointments', 'SectionController::show/appointments');
+    $routes->get('settings', 'SectionController::show/settings');
+});
 
 $routes->group('', ['namespace' => 'App\\Controllers\\Dashboard', 'filter' => 'auth'], static function ($routes) {
-    $routes->get('dashboard', 'SectionController::show/business');
-    $routes->get('business', 'SectionController::show/business');
+    $routes->get('dashboard', 'BusinessController::index');
+    $routes->get('business', 'BusinessController::legacyRedirect');
+    $routes->post('business/save', 'BusinessController::store');
     $routes->get('services', 'SectionController::show/services');
     $routes->get('employees', 'SectionController::show/employees');
     $routes->get('availabilities', 'SectionController::show/availabilities');

@@ -48,6 +48,9 @@
 	<!-- Svganimation scripts -->
 	 <script src="./vendor/svganimation/vivus.min.js"></script>
     <script src="./vendor/svganimation/svg.animation.js"></script>
+    <?php if (! empty($pageScripts ?? '')): ?>
+        <?= $pageScripts ?>
+    <?php endif; ?>
 	
 </body>
 </html>

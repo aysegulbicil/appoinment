@@ -1,0 +1,56 @@
+
+// Font Family
+
+$heading-font: 'Syne', sans-serif;
+
+$body-font: 'DM Sans', sans-serif;
+
+// Font Size
+
+$h1-font: 65px;
+
+$h2-font: 50px;
+
+$h3-font: 24px;
+
+$h4-font: 22px;
+
+$h5-font: 20px;
+
+$h6-font: 18px;
+
+// Colors
+
+$black-color: #1D231F;
+
+$title-color: #0F0F2D;
+
+$text-color: #666666;
+
+$primary-color: #193B1E;
+
+$secondary-color: #FFB966;
+
+$gray-color:#FEFBE9;
+
+$white: #fff;
+
+// Responsive Variables
+
+$xl: 'only screen and (min-width: 1200px)';
+
+$lp: 'only screen and (min-width: 1200px) and (max-width: 1600px)';
+
+$lm : '(max-width: 1199px)';
+
+$lg : 'only screen and (min-width: 992px) and (max-width: 1199px)';
+
+$xm:'(max-width: 991px)';
+
+$md:'only screen and (min-width: 768px) and (max-width: 991px)';
+
+$xs:'(max-width: 767px)';
+
+$xss:'(max-width: 575px)';
+
+$sm: 'only screen and (min-width: 576px) and (max-width: 767px)';

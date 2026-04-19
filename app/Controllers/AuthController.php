@@ -2,36 +2,61 @@
 
 namespace App\Controllers;
 
+use App\Libraries\PackageCatalog;
 use App\Models\UserModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class AuthController extends BaseController
 {
     public function register()
     {
         if (session()->get('isLoggedIn')) {
-            return redirect()->to(base_url('/dashboard'));
+            return redirect()->to(base_url('/dashboard/businesses'));
         }
 
         return view('auth/register', [
-            'pageTitle' => 'Kayit Ol',
+            'pageTitle'       => 'Kayıt Ol',
+            'selectedPackage' => $this->getSelectedPackage(),
         ]);
     }
 
     public function login()
     {
         if (session()->get('isLoggedIn')) {
-            return redirect()->to(base_url('/dashboard'));
+            return redirect()->to(base_url('/dashboard/businesses'));
         }
 
         return view('auth/login', [
-            'pageTitle' => 'Giris Yap',
+            'pageTitle'       => 'Giriş Yap',
+            'selectedPackage' => $this->getSelectedPackage(),
         ]);
+    }
+
+    public function selectPackage(string $packageCode)
+    {
+        $package = PackageCatalog::find($packageCode);
+
+        if ($package === null) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        session()->set(PackageCatalog::SESSION_KEY, $package['code']);
+
+        if (session()->get('isLoggedIn')) {
+            $this->syncPackageToUser((int) session()->get('userId'));
+
+            return redirect()->to(base_url('/dashboard/businesses'))
+                ->with('success', $package['name'] . ' seçildi. Şimdi işletme bilgilerinizi tamamlayabilirsiniz.');
+        }
+
+        return redirect()->to(base_url('/login'))
+            ->with('success', $package['name'] . ' seçildi. Devam etmek için giriş yapın veya kayıt olun.');
     }
 
     public function attemptRegister()
     {
         if (session()->get('isLoggedIn')) {
-            return redirect()->to(base_url('/dashboard'));
+            return redirect()->to(base_url('/dashboard/businesses'));
         }
 
         $rules = [
@@ -45,10 +70,10 @@ class AuthController extends BaseController
 
         $messages = [
             'email' => [
-                'is_unique' => 'Bu e-posta adresi zaten kayitli.',
+                'is_unique' => 'Bu e-posta adresi zaten kayıtlı.',
             ],
             'password_confirm' => [
-                'matches' => 'Sifre tekrari sifre ile ayni olmali.',
+                'matches' => 'Şifre tekrarı şifre ile aynı olmalı.',
             ],
         ];
 
@@ -57,22 +82,35 @@ class AuthController extends BaseController
         }
 
         $userModel = new UserModel();
-        $userModel->insert([
+        $package   = $this->getSelectedPackage();
+
+        $userId = $userModel->insert([
             'name'          => (string) $this->request->getPost('full_name'),
             'email'         => (string) $this->request->getPost('email'),
             'phone'         => (string) $this->request->getPost('phone'),
             'company_name'  => (string) $this->request->getPost('company_name'),
+            'package_code'  => $package['code'],
             'password_hash' => password_hash((string) $this->request->getPost('password'), PASSWORD_DEFAULT),
             'is_active'     => 1,
         ]);
 
-        return redirect()->to(base_url('/login'))->with('success', 'Kayit basarili. Simdi giris yapabilirsiniz.');
+        session()->set([
+            'userId'          => $userId,
+            'userName'        => (string) $this->request->getPost('full_name'),
+            'userEmail'       => (string) $this->request->getPost('email'),
+            'userPackageCode' => $package['code'],
+            'userPackageName' => $package['name'],
+            'isLoggedIn'      => true,
+        ]);
+
+        return redirect()->to(base_url('/dashboard/businesses'))
+            ->with('success', 'Kayıt tamamlandı. Şimdi işletmenizi ekleyebilirsiniz.');
     }
 
     public function attemptLogin()
     {
         if (session()->get('isLoggedIn')) {
-            return redirect()->to(base_url('/dashboard'));
+            return redirect()->to(base_url('/dashboard/businesses'));
         }
 
         $rules = [
@@ -88,27 +126,67 @@ class AuthController extends BaseController
         $user      = $userModel->where('email', (string) $this->request->getPost('email'))->first();
 
         if (! $user || ! password_verify((string) $this->request->getPost('password'), $user['password_hash'])) {
-            return redirect()->back()->withInput()->with('error', 'E-posta veya sifre hatali.');
+            return redirect()->back()->withInput()->with('error', 'E-posta veya şifre hatalı.');
         }
 
         if (! (bool) $user['is_active']) {
-            return redirect()->back()->withInput()->with('error', 'Hesabiniz pasif durumda.');
+            return redirect()->back()->withInput()->with('error', 'Hesabınız pasif durumda.');
         }
 
         session()->set([
-            'userId'     => $user['id'],
-            'userName'   => $user['name'],
-            'userEmail'  => $user['email'],
-            'isLoggedIn' => true,
+            'userId'          => $user['id'],
+            'userName'        => $user['name'],
+            'userEmail'       => $user['email'],
+            'userPackageCode' => $user['package_code'] ?? null,
+            'isLoggedIn'      => true,
         ]);
 
-        return redirect()->to(base_url('/dashboard'));
+        $this->syncPackageToUser((int) $user['id']);
+
+        return redirect()->to(base_url('/dashboard/businesses'))
+            ->with('success', 'Giriş başarılı. Şimdi işletme bilgilerinizi tamamlayabilirsiniz.');
     }
 
     public function logout()
     {
         session()->destroy();
 
-        return redirect()->to(base_url('/'))->with('success', 'Cikis yapildi.');
+        return redirect()->to(base_url('/'))->with('success', 'Çıkış yapıldı.');
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function getSelectedPackage(): array
+    {
+        $pendingPackageCode = session()->get(PackageCatalog::SESSION_KEY);
+        if (is_string($pendingPackageCode) && $pendingPackageCode !== '') {
+            $pendingPackage = PackageCatalog::find($pendingPackageCode);
+            if ($pendingPackage !== null) {
+                return $pendingPackage;
+            }
+        }
+
+        $userPackageCode = session()->get('userPackageCode');
+        if (is_string($userPackageCode) && $userPackageCode !== '') {
+            $userPackage = PackageCatalog::find($userPackageCode);
+            if ($userPackage !== null) {
+                return $userPackage;
+            }
+        }
+
+        return PackageCatalog::default();
+    }
+
+    private function syncPackageToUser(int $userId): void
+    {
+        $package = $this->getSelectedPackage();
+
+        (new UserModel())->update($userId, ['package_code' => $package['code']]);
+
+        session()->set([
+            'userPackageCode' => $package['code'],
+            'userPackageName' => $package['name'],
+        ]);
     }
 }

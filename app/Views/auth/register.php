@@ -1,4 +1,7 @@
-<?php $errors = session('errors') ?? []; ?>
+<?php
+$errors = session('errors') ?? [];
+$selectedPackage = $selectedPackage ?? null;
+?>
 <!DOCTYPE html>
 <html lang="tr" class="h-100">
 <head>
@@ -6,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex,nofollow">
-    <title><?= esc($pageTitle ?? 'Kayit Ol') ?></title>
+    <title><?= esc($pageTitle ?? 'Kayıt Ol') ?></title>
     <link rel="shortcut icon" type="image/png" href="<?= base_url('assets/images/favicon.png') ?>">
     <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet">
 </head>
@@ -16,23 +19,30 @@
             <div class="col-lg-6 align-self-start">
                 <div class="account-info-area" style="background-image: url('<?= base_url('assets/images/rainbow.gif') ?>')">
                     <div class="login-content">
-                        <p class="sub-title">Kurumsal hesabinizi olusturup yonetim paneline erisin</p>
+                        <p class="sub-title">Kurumsal hesabınızı oluşturup yönetim paneline erişin</p>
                         <h1 class="title">Smart <span>Appointment</span></h1>
-                        <p class="text">Musteri, randevu ve operasyon sureclerini tek ekrandan yonetin.</p>
+                        <p class="text">Müşteri, randevu ve operasyon süreçlerini tek ekrandan yönetin.</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 col-md-8 col-sm-12 mx-auto align-self-center">
                 <div class="login-form">
                     <div class="login-head">
-                        <h3 class="title">Yeni Hesap Olustur</h3>
-                        <p>Bilgilerinizi girin, hesabiniz hemen olussun.</p>
+                        <h3 class="title">Yeni Hesap Oluştur</h3>
+                        <p>Bilgilerinizi girin, hesabınız hemen oluşsun.</p>
                     </div>
-                    <h6 class="login-title"><span>Kayit Ol</span></h6>
+                    <h6 class="login-title"><span>Kayıt Ol</span></h6>
 
                     <?php if (session()->getFlashdata('error')): ?>
                         <div class="alert alert-danger solid alert-dismissible fade show">
                             <?= esc(session()->getFlashdata('error')) ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ($selectedPackage): ?>
+                        <div class="alert alert-info solid">
+                            Seçilen paket: <strong><?= esc($selectedPackage['name']) ?></strong><br>
+                            <small><?= esc($selectedPackage['description']) ?></small>
                         </div>
                     <?php endif; ?>
 
@@ -70,7 +80,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label class="mb-1 text-dark" for="phone">Telefon Numarasi</label>
+                            <label class="mb-1 text-dark" for="phone">Telefon Numarası</label>
                             <input
                                 id="phone"
                                 name="phone"
@@ -85,14 +95,14 @@
                         </div>
 
                         <div class="mb-4">
-                            <label class="mb-1 text-dark" for="company_name">Kurum Adi</label>
+                            <label class="mb-1 text-dark" for="company_name">Kurum Adı</label>
                             <input
                                 id="company_name"
                                 name="company_name"
                                 type="text"
                                 class="form-control form-control-lg<?= isset($errors['company_name']) ? ' is-invalid' : '' ?>"
                                 value="<?= esc(old('company_name')) ?>"
-                                placeholder="Opsiyonel"
+                                placeholder="İlk işletmenizin adı"
                             >
                             <?php if (isset($errors['company_name'])): ?>
                                 <div class="invalid-feedback"><?= esc($errors['company_name']) ?></div>
@@ -100,13 +110,13 @@
                         </div>
 
                         <div class="mb-4">
-                            <label class="mb-1 text-dark" for="password">Sifre</label>
+                            <label class="mb-1 text-dark" for="password">Şifre</label>
                             <input
                                 id="password"
                                 name="password"
                                 type="password"
                                 class="form-control form-control-lg<?= isset($errors['password']) ? ' is-invalid' : '' ?>"
-                                placeholder="Sifreniz"
+                                placeholder="Şifreniz"
                             >
                             <?php if (isset($errors['password'])): ?>
                                 <div class="invalid-feedback"><?= esc($errors['password']) ?></div>
@@ -114,13 +124,13 @@
                         </div>
 
                         <div class="mb-4">
-                            <label class="mb-1 text-dark" for="password_confirm">Sifre Tekrar</label>
+                            <label class="mb-1 text-dark" for="password_confirm">Şifre Tekrar</label>
                             <input
                                 id="password_confirm"
                                 name="password_confirm"
                                 type="password"
                                 class="form-control form-control-lg<?= isset($errors['password_confirm']) ? ' is-invalid' : '' ?>"
-                                placeholder="Sifrenizi tekrar girin"
+                                placeholder="Şifrenizi tekrar girin"
                             >
                             <?php if (isset($errors['password_confirm'])): ?>
                                 <div class="invalid-feedback"><?= esc($errors['password_confirm']) ?></div>
@@ -128,12 +138,12 @@
                         </div>
 
                         <div class="text-center mb-4">
-                            <button type="submit" class="btn btn-primary btn-block">Kayit Ol</button>
+                            <button type="submit" class="btn btn-primary btn-block">Kayıt Ol</button>
                         </div>
 
                         <p class="text-center mb-0">
-                            Zaten hesabiniz var mi?
-                            <a class="btn-link text-primary" href="<?= base_url('login') ?>">Giris Yap</a>
+                            Zaten hesabınız var mı?
+                            <a class="btn-link text-primary" href="<?= base_url('login') ?>">Giriş Yap</a>
                         </p>
                     </form>
                 </div>

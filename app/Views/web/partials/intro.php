@@ -102,51 +102,21 @@
                     </div>
                     <nav class="main-menu">
                         <ul>
-                            <li class="menu-item has-children"><a href="#">Home</a>
-                                <ul class="sub-menu">
-                                    <li><a href="index.html">Home 01</a></li>
-                                    <li><a href="index-2.html">Home 02</a></li>
-                                </ul>
-                            </li>
-                            <li class="menu-item has-children"><a href="#">Insurance</a>
-                                <ul class="sub-menu">
-                                    <li><a href="services.html">Our Insurance</a></li>
-                                    <li><a href="service-details.html">Insurance Details</a></li>
-                                </ul>
-                            </li>
-                            <li class="menu-item has-children"><a href="#">Portfolio</a>
-                                <ul class="sub-menu">
-                                    <li><a href="portfolio.html">Our Portfolio</a></li>
-                                    <li><a href="portfolio-details.html">Portfolio Details</a></li>
-                                </ul>
-                            </li>
-                            <li class="menu-item has-children"><a href="#">Blog</a>
-                                <ul class="sub-menu">
-                                    <li><a href="blog-standard.html">Our Blog</a></li>
-                                    <li><a href="blog-details.html">Blog Details</a></li>
-                                </ul>
-                            </li>
-                            <li class="menu-item has-children"><a href="#">Pages</a>
-                                <ul class="sub-menu">
-                                    <li><a href="about.html">About Us</a></li>
-                                    <li><a href="career.html">Career</a></li>
-                                    <li><a href="job-details.html">Career Details</a></li>
-                                    <li><a href="team.html">Our Team</a></li>
-                                    <li><a href="team-details.html">Team Details</a></li>
-                                    <li><a href="faq.html">Faq</a></li>
-                                    <li><a href="contact.html">Contact</a></li>
-                                </ul>
-                            </li>
+                            <li><a href="<?= base_url('/') ?>">Ana Sayfa</a></li>
+                            <li><a href="<?= base_url('businesses') ?>">İşletmeler</a></li>
+                            <li><a href="<?= base_url('/#process') ?>">Nasıl Çalışır?</a></li>
+                            <li><a href="<?= base_url('login') ?>">Giriş Yap</a></li>
+                            <li><a href="<?= base_url('register') ?>">Kayıt Ol</a></li>
                         </ul>
                     </nav>
                     <div class="menu-button mt-40 d-xl-none">
-                        <a href="contact.html" class="main-btn secondary-btn">Get a Quote<i class="fas fa-arrow-right"></i></a>
+                        <a href="<?= base_url('register') ?>" class="main-btn secondary-btn">Ücretsiz Başla<i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
                 <div class="nav-right-item">
                     <div class="search-btn" data-bs-toggle="modal" data-bs-target="#search-modal"><i class="fas fa-search"></i></div>
                     <div class="menu-button d-xl-block d-none">
-                        <a href="contact.html" class="main-btn primary-btn">Get a Quote<i class="fas fa-arrow-right"></i></a>
+                        <a href="<?= base_url('register') ?>" class="main-btn primary-btn">Ücretsiz Başla<i class="fas fa-arrow-right"></i></a>
                     </div>
                     <div class="bar-item"><img src="web-assets/images/bar.png" alt="dot"></div>
                     <div class="navbar-toggler">

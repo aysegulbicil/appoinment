@@ -1,0 +1,95 @@
+/*-----------------------------------------------------------------------------------
+
+    Template Name: Surancy - Insurance Agency Figma Template
+    Template URI: site.com
+    Description: Surancy is a creative & unique HTML template specifically created for insurance, car insurance, health insurance, life insurance and all insurance company related any business website.
+    Author: WebTend 
+    Author URI: https://webtend.net/
+    Version: 1.0
+
+--------------------------
+    CSS INDEX
+--------------------------
+
+    01. Common css 
+    02. Header css
+    03. Hero css
+    04. About css
+    05. Services css
+    06. Portfolio css
+    07. Elements css
+    08. Career css
+    09. Team css
+    10. Testimonial css
+    11. Faq css
+    12. Blog css
+    13. Contact css
+    14. Footer css
+    15. Sliders css
+    16. Wrapper css
+    17. Sections css
+    
+-----------------------------------------------------------------------------------*/
+
+// Global variables
+
+@import 'variables';
+
+// Global Mixins
+
+@import 'mixin';
+
+// Global Extend
+
+@import 'extend';
+
+// common
+@import 'common';
+
+// Header
+@import 'sections/header';
+
+// Hero
+@import 'sections/hero';
+
+// About
+@import 'sections/about';
+
+// Services
+@import 'sections/services';
+
+// Portfolio
+@import 'sections/portfolio';
+
+// Elements
+@import 'sections/elements';
+
+// Career
+@import 'sections/career';
+
+// Team
+@import 'sections/team';
+
+// Testimonial
+@import 'sections/testimonial';
+
+// Faq
+@import 'sections/faq';
+
+// Blog
+@import 'sections/blog';
+
+// Contact
+@import 'sections/contact';
+
+// Footer
+@import 'sections/footer';
+
+// Sliders
+@import 'sections/sliders';
+
+// Sections
+@import 'sections/wrapper';
+
+// Sections
+@import 'sections/sections';

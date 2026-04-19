@@ -7,6 +7,7 @@
             </a>
             <nav class="web-nav">
                 <a href="#hakkinda">Hakkinda</a>
+                <a href="<?= base_url('businesses') ?>">Isletmeler</a>
                 <a href="#hizmetler">Hizmetler</a>
                 <a href="#akis">Akis</a>
                 <a href="#yorumlar">Yorumlar</a>

@@ -4,6 +4,7 @@
     <?= view('web/partials/head', ['pageTitle' => $pageTitle ?? 'Surancy - Insurance Agency HTML Template']) ?>
 </head>
 <body>
+    <?= view('web/partials/intro') ?>
     <main>
         <?= $this->renderSection('content') ?>
     </main>

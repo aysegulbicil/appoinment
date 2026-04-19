@@ -1,4 +1,7 @@
-<?php $errors = session('errors') ?? []; ?>
+<?php
+$errors = session('errors') ?? [];
+$selectedPackage = $selectedPackage ?? null;
+?>
 <!DOCTYPE html>
 <html lang="tr" class="h-100">
 <head>
@@ -6,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex,nofollow">
-    <title><?= esc($pageTitle ?? 'Giris Yap') ?></title>
+    <title><?= esc($pageTitle ?? 'Giriş Yap') ?></title>
     <link rel="shortcut icon" type="image/png" href="<?= base_url('assets/images/favicon.png') ?>">
     <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet">
 </head>
@@ -16,19 +19,19 @@
             <div class="col-lg-6 align-self-start">
                 <div class="account-info-area" style="background-image: url('<?= base_url('assets/images/rainbow.gif') ?>')">
                     <div class="login-content">
-                        <p class="sub-title">Yonetime erismek icin hesabinizla giris yapin</p>
+                        <p class="sub-title">Yönetime erişmek için hesabınızla giriş yapın</p>
                         <h1 class="title">Smart <span>Appointment</span></h1>
-                        <p class="text">Randevu, musteri ve operasyon akisini tek panelden yonetin.</p>
+                        <p class="text">Randevu, müşteri ve operasyon akışını tek panelden yönetin.</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 col-md-7 col-sm-12 mx-auto align-self-center">
                 <div class="login-form">
                     <div class="login-head">
-                        <h3 class="title">Hos Geldiniz</h3>
-                        <p>Devam etmek icin e-posta ve sifrenizle giris yapin.</p>
+                        <h3 class="title">Hoş Geldiniz</h3>
+                        <p>Devam etmek için e-posta ve şifrenizle giriş yapın.</p>
                     </div>
-                    <h6 class="login-title"><span>Giris Yap</span></h6>
+                    <h6 class="login-title"><span>Giriş Yap</span></h6>
 
                     <?php if (session()->getFlashdata('error')): ?>
                         <div class="alert alert-danger solid alert-dismissible fade show">
@@ -39,6 +42,13 @@
                     <?php if (session()->getFlashdata('success')): ?>
                         <div class="alert alert-success solid alert-dismissible fade show">
                             <?= esc(session()->getFlashdata('success')) ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ($selectedPackage): ?>
+                        <div class="alert alert-info solid">
+                            Seçilen paket: <strong><?= esc($selectedPackage['name']) ?></strong><br>
+                            <small><?= esc($selectedPackage['description']) ?></small>
                         </div>
                     <?php endif; ?>
 
@@ -60,13 +70,13 @@
                         </div>
 
                         <div class="mb-4">
-                            <label class="mb-1 text-dark" for="password">Sifre</label>
+                            <label class="mb-1 text-dark" for="password">Şifre</label>
                             <input
                                 id="password"
                                 name="password"
                                 type="password"
                                 class="form-control form-control-lg<?= isset($errors['password']) ? ' is-invalid' : '' ?>"
-                                placeholder="Sifreniz"
+                                placeholder="Şifreniz"
                             >
                             <?php if (isset($errors['password'])): ?>
                                 <div class="invalid-feedback"><?= esc($errors['password']) ?></div>
@@ -74,18 +84,18 @@
                         </div>
 
                         <div class="text-center mb-4">
-                            <button type="submit" class="btn btn-primary btn-block">Giris Yap</button>
+                            <button type="submit" class="btn btn-primary btn-block">Giriş Yap</button>
                         </div>
 
                         <p class="text-center mb-0 text-muted">
-                            Varsayilan test kullanicisi: <strong>admin@appoinment.local</strong>
+                            Varsayılan test kullanıcısı: <strong>admin@appoinment.local</strong>
                         </p>
                         <p class="text-center text-muted">
-                            Varsayilan sifre: <strong>Admin123!</strong>
+                            Varsayılan şifre: <strong>Admin123!</strong>
                         </p>
                         <p class="text-center mb-0">
-                            Hesabiniz yok mu?
-                            <a class="btn-link text-primary" href="<?= base_url('register') ?>">Kayit Ol</a>
+                            Hesabınız yok mu?
+                            <a class="btn-link text-primary" href="<?= base_url('register') ?>">Kayıt Ol</a>
                         </p>
                     </form>
                 </div>
