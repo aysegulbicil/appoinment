@@ -85,19 +85,6 @@ $avatarImages = [
                     </div>
                 </div>
             </div>
-
-            <?php if (! empty($selectedPackage)): ?>
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="mb-3">Seçili Paket</h4>
-                            <span class="badge badge-primary light mb-3"><?= esc($selectedPackage['badge']) ?></span>
-                            <h5 class="mb-2"><?= esc($selectedPackage['name']) ?></h5>
-                            <p class="text-muted mb-0"><?= esc($selectedPackage['description']) ?></p>
-                        </div>
-                    </div>
-                </div>
-            <?php endif; ?>
         </div>
     </div>
 </div>
