@@ -18,11 +18,19 @@ class MailService
      */
     public function sendTemplate(string $to, string $subject, string $view, array $data = []): bool
     {
+        $body = view($view, $data);
+
+        // SMTP yapilandirilmadan production disinda gercek gonderim denenmez;
+        // mail writable/logs/emails altina yazilir ve akis calismaya devam eder.
+        if (! $this->isSmtpConfigured() && ENVIRONMENT !== 'production') {
+            return $this->writeToLogFile($to, $subject, $body);
+        }
+
         $this->email->clear(true);
         $this->email->setTo($to);
         $this->email->setSubject($subject);
         $this->email->setMailType('html');
-        $this->email->setMessage(view($view, $data));
+        $this->email->setMessage($body);
 
         return $this->email->send(false);
     }
@@ -55,5 +63,34 @@ class MailService
                 'registerUrl'  => base_url('register'),
             ]
         );
+    }
+
+    private function isSmtpConfigured(): bool
+    {
+        $config = config('Email');
+
+        return $config->protocol === 'smtp' && trim((string) $config->SMTPHost) !== '';
+    }
+
+    private function writeToLogFile(string $to, string $subject, string $body): bool
+    {
+        $directory = WRITEPATH . 'logs/emails';
+
+        if (! is_dir($directory) && ! mkdir($directory, 0775, true)) {
+            log_message('error', 'MailService: e-posta log dizini olusturulamadi: ' . $directory);
+
+            return false;
+        }
+
+        $fileName = date('Ymd-His') . '-' . preg_replace('/[^a-z0-9]+/i', '-', $to) . '.html';
+        $header   = sprintf("<!-- To: %s | Subject: %s | %s -->\n", $to, $subject, date('c'));
+
+        if (file_put_contents($directory . '/' . $fileName, $header . $body) === false) {
+            return false;
+        }
+
+        log_message('info', 'MailService (dev): "' . $subject . '" e-postasi ' . $to . ' icin logs/emails/' . $fileName . ' dosyasina yazildi.');
+
+        return true;
     }
 }

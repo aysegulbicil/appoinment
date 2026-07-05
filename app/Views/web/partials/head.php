@@ -15,15 +15,15 @@
 <!--====== FontAwesome css ======-->
 <link rel="stylesheet" href="web-assets/fonts/fontawesome/css/all.min.css">
 <!--====== Bootstrap css ======-->
-<link rel="stylesheet" href="web-assets/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
 <!--====== magnific-popup css ======-->
-<link rel="stylesheet" href="web-assets/vendor/magnific-popup/dist/magnific-popup.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">
 <!--====== Slick-popup css ======-->
-<link rel="stylesheet" href="web-assets/vendor/slick/slick.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
 <!--====== Nice Select css ======-->
-<link rel="stylesheet" href="web-assets/vendor/nice-select/css/nice-select.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css">
 <!--====== Animate css ======-->
-<link rel="stylesheet" href="web-assets/vendor/animate.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 <!--====== Default css ======-->
 <link rel="stylesheet" href="web-assets/css/default.css">
 <!--====== Style css ======-->

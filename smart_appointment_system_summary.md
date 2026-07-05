@@ -155,7 +155,7 @@ Smart Appointment, çoklu işletme destekli bir randevu ve işletme yönetim sis
 
 ## Randevu Yapısı
 
-- Public işletme detayında randevu oluşturma başlangıç akışı mevcut.
+- Public işletme detayında randevu oluşturma akışı mevcut.
 - Dashboard tarafında randevu listesi mevcut.
 - Randevu durum güncelleme mevcut.
 - İşletme sahibi ve işletmeye bağlı aktif çalışanlar ilgili işletmenin randevularını görebiliyor.
@@ -172,6 +172,35 @@ Smart Appointment, çoklu işletme destekli bir randevu ve işletme yönetim sis
 - `AppointmentModel`
 - `dashboard/appointments/index.php`
 - `Public/BusinessController`
+
+---
+
+## Çalışma Saatleri ve Slot Motoru (2026-07-05)
+
+- İşletme detayına `Çalışma Saatleri` sekmesi eklendi (gün bazlı açık/kapalı + açılış/kapanış).
+- Saat kaydetmemiş işletmeler için varsayılan program: Hafta içi 09:00-18:00, Cumartesi 10:00-16:00, Pazar kapalı.
+- `SlotService` slot üretiyor: hizmet süresi adımıyla (süre yoksa 30 dk), kapalı günler ve geçmiş/lead-time altındaki saatler elenerek.
+- Kapasite = işletmenin aktif çalışan sayısı (çalışan yoksa 1); pending+approved randevular slotu dolduruyor.
+- Public randevu modalında serbest saat girişi kaldırıldı; `GET businesses/{id}/slots?service_id=&date=` endpoint'inden gelen uygun saatler buton olarak seçiliyor.
+- Randevu kaydı transaction içinde slot doğrulamasından geçiyor: dolu slot, kapalı gün, geçmiş tarih, takvim dışı saat ve 60 günden ileri tarih reddediliyor.
+
+İlgili yapılar:
+
+- `SlotService`
+- `BusinessWorkingHourModel`
+- `CreateBusinessWorkingHoursTable`
+- `dashboard/businesses/tabs/working_hours.php`
+- `Public/BusinessController::slots`
+
+---
+
+## Ortam ve Mail Düzeltmeleri (2026-07-05)
+
+- `.env` projeye özel yeniden yazıldı (yeni encryption key, MySQL bağlantısı, Europe/Istanbul saat dilimi).
+- docker-compose'daki noktalı `database.*` env değişkenleri konteynere geçmediği için kaldırıldı; veritabanı ayarları `.env`'den okunuyor.
+- SMTP yapılandırılmadığında development ortamında mailler `writable/logs/emails/` altına HTML olarak yazılıyor; kayıt/doğrulama akışı SMTP'siz de çalışıyor.
+- `DefaultAdminSeeder` admin kullanıcısını e-posta doğrulanmış oluşturuyor (aksi halde admin girişi doğrulama ekranına takılıyordu).
+- Login sayfasındaki görünür test kullanıcı bilgileri kaldırıldı.
 
 ---
 
@@ -259,7 +288,6 @@ Kullanıcı doğrulama alanları:
 
 ## Şu An Bilerek Dışarıda Bırakılanlar
 
-- Çalışma saatleri/müsaitlik modülü
 - Online ödeme
 - SMS bildirimi
 - Kupon sistemi
@@ -273,9 +301,11 @@ Kullanıcı doğrulama alanları:
 ## Sonraki Mantıklı Geliştirme Başlıkları
 
 - Kullanıcının kendi randevularını görebileceği public alan
-- Dashboard ana özet ekranı
-- Randevu bildirim mailleri
+- Dashboard ana özet ekranı (gerçek istatistikler)
+- Randevu onay/red bildirim mailleri
+- Şifre sıfırlama akışı
+- Login/doğrulama kodu için rate limiting
 - Manager/staff için daha detaylı yetki ayrımı
-- Randevu çakışma kontrolünün güçlendirilmesi
-- Çalışan-hizmet eşleştirme
+- Çalışan-hizmet eşleştirme (randevunun çalışana atanması)
+- Paket limitlerinin uygulanması (PackageCatalog şu an sadece bilgilendirme)
 - README ve kurulum dokümantasyonu

@@ -80,15 +80,15 @@
         </div>
     </footer>
     <a href="#" class="back-to-top"><i class="far fa-angle-up"></i></a>
-    <script src="web-assets/vendor/jquery-3.6.0.min.js"></script>
-    <script src="web-assets/vendor/popper/popper.min.js"></script>
-    <script src="web-assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="web-assets/vendor/slick/slick.min.js"></script>
-    <script src="web-assets/vendor/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
-    <script src="web-assets/vendor/jquery.counterup.min.js"></script>
-    <script src="web-assets/vendor/jquery.waypoints.js"></script>
-    <script src="web-assets/vendor/nice-select/js/jquery.nice-select.min.js"></script>
-    <script src="web-assets/vendor/wow.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.8/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
     <script src="web-assets/js/theme.js"></script>
 </body>
 </html>

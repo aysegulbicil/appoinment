@@ -2,6 +2,7 @@
 $tabs = [
     'general' => 'Genel Bilgiler',
     'web-settings' => 'Web Ayarlari',
+    'working-hours' => 'Calisma Saatleri',
 ];
 ?>
 <div class="content-body">
@@ -48,6 +49,8 @@ $tabs = [
                 <?php
                 if (($currentTab ?? 'general') === 'web-settings') {
                     echo view('dashboard/businesses/tabs/web_settings', ['business' => $business, 'webSettings' => $webSettings ?? []]);
+                } elseif (($currentTab ?? 'general') === 'working-hours') {
+                    echo view('dashboard/businesses/tabs/working_hours', ['business' => $business, 'workingHours' => $workingHours ?? []]);
                 } elseif (($currentTab ?? 'general') === 'staff') {
                     echo view('dashboard/businesses/tabs/staff', ['business' => $business]);
                 } else {

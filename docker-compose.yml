@@ -1,0 +1,45 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8899:80"
+    volumes:
+      - .:/var/www/html
+    # Noktali env adlari (database.default.*) konteynere gecmiyor;
+    # veritabani ayarlari .env dosyasindan okunur.
+    environment:
+      CI_ENVIRONMENT: development
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: appointment
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass
+      MYSQL_ROOT_PASSWORD: rootpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-prootpass"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: rootpass
+    depends_on:
+      - db
+
+volumes:
+  dbdata:

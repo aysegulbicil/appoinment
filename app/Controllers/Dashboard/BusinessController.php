@@ -7,6 +7,7 @@ use App\Libraries\PackageCatalog;
 use App\Models\BusinessModel;
 use App\Models\BusinessServiceModel;
 use App\Models\BusinessWebSettingModel;
+use App\Models\BusinessWorkingHourModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\Files\UploadedFile;
 
@@ -93,7 +94,7 @@ class BusinessController extends BaseController
         $business = $this->findAccessibleBusiness($id);
         $tab      = (string) ($this->request->getGet('tab') ?: 'general');
 
-        if (! in_array($tab, ['general', 'web-settings', 'staff'], true)) {
+        if (! in_array($tab, ['general', 'web-settings', 'working-hours', 'staff'], true)) {
             $tab = 'general';
         }
 
@@ -101,6 +102,7 @@ class BusinessController extends BaseController
             'pageTitle'       => 'Isletme Detayi',
             'business'        => $business,
             'webSettings'     => $this->webSettings($id),
+            'workingHours'    => (new BusinessWorkingHourModel())->scheduleForBusiness($id),
             'currentTab'      => $tab,
             'categories'      => $this->categories(),
             'selectedPackage' => $this->selectedPackage(),
@@ -114,6 +116,10 @@ class BusinessController extends BaseController
 
         if ($section === 'web_settings') {
             return $this->updateWebSettings($business);
+        }
+
+        if ($section === 'working_hours') {
+            return $this->updateWorkingHours($business);
         }
 
         return $this->updateGeneral($business);
@@ -295,6 +301,54 @@ class BusinessController extends BaseController
 
         return redirect()->to(base_url('dashboard/businesses/' . $business['id'] . '?tab=web-settings'))
             ->with('success', 'Web ayarlari kaydedildi.');
+    }
+
+    private function updateWorkingHours(array $business)
+    {
+        $input    = (array) $this->request->getPost('hours');
+        $schedule = [];
+        $errors   = [];
+
+        foreach (array_keys(BusinessWorkingHourModel::DAY_LABELS) as $day) {
+            $row    = (array) ($input[$day] ?? []);
+            $isOpen = ! empty($row['is_open']);
+            $start  = $this->normalizeTimeInput((string) ($row['start_time'] ?? ''));
+            $end    = $this->normalizeTimeInput((string) ($row['end_time'] ?? ''));
+
+            if ($isOpen) {
+                if ($start === null || $end === null) {
+                    $errors['hours'] = BusinessWorkingHourModel::DAY_LABELS[$day] . ' icin acilis ve kapanis saati girmelisiniz.';
+                    break;
+                }
+
+                if ($end <= $start) {
+                    $errors['hours'] = BusinessWorkingHourModel::DAY_LABELS[$day] . ' icin kapanis saati acilistan sonra olmalidir.';
+                    break;
+                }
+            }
+
+            $schedule[$day] = [
+                'is_open'    => $isOpen ? 1 : 0,
+                'start_time' => $isOpen ? $start . ':00' : null,
+                'end_time'   => $isOpen ? $end . ':00' : null,
+            ];
+        }
+
+        if ($errors !== []) {
+            return redirect()->back()->withInput()->with('errors', $errors);
+        }
+
+        (new BusinessWorkingHourModel())->replaceScheduleForBusiness((int) $business['id'], $schedule);
+
+        return redirect()->to(base_url('dashboard/businesses/' . $business['id'] . '?tab=working-hours'))
+            ->with('success', 'Calisma saatleri kaydedildi.');
+    }
+
+    private function normalizeTimeInput(string $value): ?string
+    {
+        $value = trim($value);
+
+        return preg_match('/^([01][0-9]|2[0-3]):[0-5][0-9]$/', $value) ? $value : null;
     }
 
     private function render(string $view, array $contentData): string

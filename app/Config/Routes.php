@@ -17,6 +17,7 @@ $routes->get('logout', 'AuthController::logout');
 
 $routes->get('/', 'Public\\LandingController::index');
 $routes->get('businesses', 'Public\\BusinessController::index');
+$routes->get('businesses/(:num)/slots', 'Public\\BusinessController::slots/$1');
 $routes->post('businesses/(:num)/appointments', 'Public\\BusinessController::storeAppointment/$1');
 $routes->get('businesses/(:segment)', 'Public\\BusinessController::show/$1');
 

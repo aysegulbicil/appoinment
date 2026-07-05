@@ -87,12 +87,6 @@ $selectedPackage = $selectedPackage ?? null;
                             <button type="submit" class="btn btn-primary btn-block">Giriş Yap</button>
                         </div>
 
-                        <p class="text-center mb-0 text-muted">
-                            Varsayılan test kullanıcısı: <strong>admin@appoinment.local</strong>
-                        </p>
-                        <p class="text-center text-muted">
-                            Varsayılan şifre: <strong>Admin123!</strong>
-                        </p>
                         <p class="text-center mb-0">
                             Hesabınız yok mu?
                             <a class="btn-link text-primary" href="<?= base_url('register') ?>">Kayıt Ol</a>

@@ -3,6 +3,7 @@
 namespace App\Controllers\Public;
 
 use App\Controllers\BaseController;
+use App\Libraries\SlotService;
 use App\Models\AppointmentModel;
 use App\Models\BusinessModel;
 use App\Models\BusinessServiceModel;
@@ -68,19 +69,42 @@ class BusinessController extends BaseController
         ]);
     }
 
-    public function storeAppointment(int $businessId)
+    public function slots(int $businessId)
     {
-        $business = (new BusinessModel())
-            ->where('id', $businessId)
-            ->groupStart()
+        $business = $this->findActiveBusiness($businessId);
+
+        $serviceId = (int) $this->request->getGet('service_id');
+        $date      = trim((string) $this->request->getGet('date'));
+
+        $service = (new BusinessServiceModel())
+            ->where('id', $serviceId)
+            ->where('business_id', $business['id'])
             ->where('status', 'active')
-            ->orWhere('is_active', 1)
-            ->groupEnd()
             ->first();
 
-        if ($business === null) {
-            throw PageNotFoundException::forPageNotFound();
+        if ($service === null) {
+            return $this->response->setStatusCode(422)->setJSON([
+                'error' => 'Geçerli bir hizmet seçmelisiniz.',
+            ]);
         }
+
+        $result = (new SlotService())->getSlotsForDate($business, $service, $date);
+
+        if ($result['error'] !== null) {
+            return $this->response->setStatusCode(422)->setJSON([
+                'error' => $result['error'],
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'closed' => $result['closed'],
+            'slots'  => $result['slots'],
+        ]);
+    }
+
+    public function storeAppointment(int $businessId)
+    {
+        $business = $this->findActiveBusiness($businessId);
 
         $rules = [
             'business_service_id' => 'required|integer',
@@ -108,6 +132,26 @@ class BusinessController extends BaseController
             ]);
         }
 
+        $date = (string) $this->request->getPost('appointment_date');
+        $time = (string) $this->request->getPost('appointment_time');
+
+        $slotService = new SlotService();
+        $db          = db_connect();
+
+        // Kontrol ve kayıt aynı transaction'da: eşzamanlı iki talebin
+        // aynı slotu kapma ihtimalini en aza indirir.
+        $db->transStart();
+
+        $slotError = $slotService->validateBookingSlot($business, $service, $date, $time);
+
+        if ($slotError !== null) {
+            $db->transComplete();
+
+            return redirect()->back()->withInput()->with('appointment_errors', [
+                'appointment_time' => $slotError,
+            ]);
+        }
+
         $appointmentCode = $this->createAppointmentCode();
 
         (new AppointmentModel())->insert([
@@ -118,13 +162,38 @@ class BusinessController extends BaseController
             'customer_name'        => trim((string) $this->request->getPost('customer_name')),
             'customer_phone'       => trim((string) $this->request->getPost('customer_phone')),
             'customer_email'       => trim((string) $this->request->getPost('customer_email')),
-            'appointment_date'     => (string) $this->request->getPost('appointment_date'),
-            'appointment_time'     => (string) $this->request->getPost('appointment_time') . ':00',
+            'appointment_date'     => $date,
+            'appointment_time'     => $time . ':00',
             'note'                 => trim((string) $this->request->getPost('note')),
             'status'               => 'pending',
         ]);
 
+        $db->transComplete();
+
+        if (! $db->transStatus()) {
+            return redirect()->back()->withInput()->with('appointment_errors', [
+                'appointment_time' => 'Randevu kaydedilemedi. Lütfen tekrar deneyin.',
+            ]);
+        }
+
         return redirect()->back()->with('appointment_success', 'Randevu talebiniz alindi. Randevu kodunuz: ' . $appointmentCode);
+    }
+
+    private function findActiveBusiness(int $businessId): array
+    {
+        $business = (new BusinessModel())
+            ->where('id', $businessId)
+            ->groupStart()
+            ->where('status', 'active')
+            ->orWhere('is_active', 1)
+            ->groupEnd()
+            ->first();
+
+        if ($business === null) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        return $business;
     }
 
     private function decodeGalleryImages(?string $rawValue): array

@@ -168,15 +168,20 @@ $hasAppointmentErrors = $appointmentErrors !== [];
                                 <input id="appointment-email" name="customer_email" type="email" class="form-control<?= isset($appointmentErrors['customer_email']) ? ' is-invalid' : '' ?>" value="<?= esc(old('customer_email')) ?>" required>
                                 <?php if (isset($appointmentErrors['customer_email'])): ?><div class="invalid-feedback"><?= esc($appointmentErrors['customer_email']) ?></div><?php endif; ?>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <label class="form-label" for="appointment-date">Tarih</label>
-                                <input id="appointment-date" name="appointment_date" type="date" min="<?= esc(date('Y-m-d')) ?>" class="form-control<?= isset($appointmentErrors['appointment_date']) ? ' is-invalid' : '' ?>" value="<?= esc(old('appointment_date')) ?>" required>
+                                <input id="appointment-date" name="appointment_date" type="date"
+                                       min="<?= esc(date('Y-m-d')) ?>"
+                                       max="<?= esc(date('Y-m-d', strtotime('+' . \App\Libraries\SlotService::MAX_BOOKING_DAYS . ' days'))) ?>"
+                                       class="form-control<?= isset($appointmentErrors['appointment_date']) ? ' is-invalid' : '' ?>" value="<?= esc(old('appointment_date')) ?>" required>
                                 <?php if (isset($appointmentErrors['appointment_date'])): ?><div class="invalid-feedback"><?= esc($appointmentErrors['appointment_date']) ?></div><?php endif; ?>
                             </div>
-                            <div class="col-md-3">
-                                <label class="form-label" for="appointment-time">Saat</label>
-                                <input id="appointment-time" name="appointment_time" type="time" class="form-control<?= isset($appointmentErrors['appointment_time']) ? ' is-invalid' : '' ?>" value="<?= esc(old('appointment_time')) ?>" required>
-                                <?php if (isset($appointmentErrors['appointment_time'])): ?><div class="invalid-feedback"><?= esc($appointmentErrors['appointment_time']) ?></div><?php endif; ?>
+                            <div class="col-md-12">
+                                <label class="form-label d-block">Saat</label>
+                                <input type="hidden" id="appointment-time" name="appointment_time" value="<?= esc(old('appointment_time')) ?>">
+                                <div id="appointment-slots" class="appointment-slots"></div>
+                                <div id="appointment-slots-message" class="text-muted small mt-1">Uygun saatleri görmek için hizmet ve tarih seçin.</div>
+                                <?php if (isset($appointmentErrors['appointment_time'])): ?><div class="text-danger small mt-1"><?= esc($appointmentErrors['appointment_time']) ?></div><?php endif; ?>
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label" for="appointment-note">Not</label>
@@ -188,7 +193,7 @@ $hasAppointmentErrors = $appointmentErrors !== [];
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Vazgec</button>
-                    <button type="submit" class="btn btn-primary" <?= $services === [] ? 'disabled' : '' ?>>Randevu Talebi Gonder</button>
+                    <button type="submit" id="appointment-submit" class="btn btn-primary" disabled>Randevu Talebi Gonder</button>
                 </div>
             </form>
         </div>
@@ -294,16 +299,176 @@ $hasAppointmentErrors = $appointmentErrors !== [];
 .business-appointment-modal textarea.form-control {
     min-height: 120px;
 }
+
+.appointment-slots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.appointment-slots .slot-btn {
+    background: #fff;
+    border: 1px solid #d7dde8;
+    border-radius: 6px;
+    color: #1f2933;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    min-width: 72px;
+    padding: 8px 10px;
+    transition: all .15s ease;
+}
+
+.appointment-slots .slot-btn:hover:not(:disabled) {
+    border-color: #0d6efd;
+    color: #0d6efd;
+}
+
+.appointment-slots .slot-btn.is-selected {
+    background: #0d6efd;
+    border-color: #0d6efd;
+    color: #fff;
+}
+
+.appointment-slots .slot-btn:disabled {
+    background: #f1f3f7;
+    color: #9aa5b1;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
 </style>
 
-<?php if ($hasAppointmentErrors): ?>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     var modalElement = document.getElementById('appointmentModal');
+    var serviceSelect = document.getElementById('appointment-service');
+    var dateInput = document.getElementById('appointment-date');
+    var timeInput = document.getElementById('appointment-time');
+    var slotsContainer = document.getElementById('appointment-slots');
+    var slotsMessage = document.getElementById('appointment-slots-message');
+    var submitButton = document.getElementById('appointment-submit');
+    var slotsUrl = '<?= base_url('businesses/' . $business['id'] . '/slots') ?>';
+
+    if (!serviceSelect || !dateInput || !timeInput || !slotsContainer) {
+        return;
+    }
+
+    var setMessage = function (text) {
+        if (slotsMessage) {
+            slotsMessage.textContent = text || '';
+        }
+    };
+
+    var updateSubmitState = function () {
+        if (submitButton) {
+            submitButton.disabled = timeInput.value === '';
+        }
+    };
+
+    var clearSlots = function (message) {
+        slotsContainer.innerHTML = '';
+        timeInput.value = '';
+        setMessage(message);
+        updateSubmitState();
+    };
+
+    var renderSlots = function (slots, preselect) {
+        slotsContainer.innerHTML = '';
+        timeInput.value = '';
+
+        slots.forEach(function (slot) {
+            var button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'slot-btn';
+            button.textContent = slot.time;
+            button.disabled = !slot.available;
+
+            if (slot.available) {
+                button.addEventListener('click', function () {
+                    slotsContainer.querySelectorAll('.slot-btn.is-selected').forEach(function (selected) {
+                        selected.classList.remove('is-selected');
+                    });
+                    button.classList.add('is-selected');
+                    timeInput.value = slot.time;
+                    updateSubmitState();
+                });
+
+                if (preselect && preselect === slot.time) {
+                    button.classList.add('is-selected');
+                    timeInput.value = slot.time;
+                }
+            }
+
+            slotsContainer.appendChild(button);
+        });
+
+        updateSubmitState();
+    };
+
+    var loadSlots = function (preselect) {
+        var serviceId = serviceSelect.value;
+        var date = dateInput.value;
+
+        if (serviceId === '' || date === '') {
+            clearSlots('Uygun saatleri görmek için hizmet ve tarih seçin.');
+            return;
+        }
+
+        clearSlots('Uygun saatler yükleniyor...');
+
+        fetch(slotsUrl + '?service_id=' + encodeURIComponent(serviceId) + '&date=' + encodeURIComponent(date), {
+            headers: { 'Accept': 'application/json' }
+        })
+            .then(function (response) {
+                return response.json().then(function (payload) {
+                    return { ok: response.ok, payload: payload };
+                });
+            })
+            .then(function (result) {
+                if (!result.ok) {
+                    clearSlots(result.payload.error || 'Uygun saatler alınamadı.');
+                    return;
+                }
+
+                if (result.payload.closed) {
+                    clearSlots('İşletme seçtiğiniz tarihte kapalı. Lütfen başka bir gün seçin.');
+                    return;
+                }
+
+                if (!result.payload.slots || result.payload.slots.length === 0) {
+                    clearSlots('Bu tarihte uygun saat bulunmuyor.');
+                    return;
+                }
+
+                var hasAvailable = result.payload.slots.some(function (slot) { return slot.available; });
+                setMessage(hasAvailable ? 'Bir saat seçin. Üstü çizili saatler dolu.' : 'Bu tarihteki tüm saatler dolu. Lütfen başka bir gün seçin.');
+                renderSlots(result.payload.slots, preselect);
+            })
+            .catch(function () {
+                clearSlots('Uygun saatler alınamadı. Lütfen tekrar deneyin.');
+            });
+    };
+
+    // nice-select, change olayını jQuery üzerinden tetikler; iki dünyayı da dinle.
+    if (window.jQuery) {
+        window.jQuery(serviceSelect).on('change', function () { loadSlots(null); });
+    } else {
+        serviceSelect.addEventListener('change', function () { loadSlots(null); });
+    }
+    dateInput.addEventListener('change', function () { loadSlots(null); });
+
+    updateSubmitState();
+
+    var oldTime = '<?= esc(old('appointment_time'), 'js') ?>';
+    if (serviceSelect.value !== '' && dateInput.value !== '') {
+        loadSlots(oldTime !== '' ? oldTime : null);
+    }
+
+    <?php if ($hasAppointmentErrors): ?>
     if (modalElement && window.bootstrap && bootstrap.Modal) {
         bootstrap.Modal.getOrCreateInstance(modalElement).show();
     }
+    <?php endif; ?>
 });
 </script>
-<?php endif; ?>
 <?= $this->endSection() ?>
