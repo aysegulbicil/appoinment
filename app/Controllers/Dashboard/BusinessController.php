@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Libraries\PackageCatalog;
 use App\Models\BusinessModel;
 use App\Models\BusinessServiceModel;
+use App\Models\BusinessWebPageModel;
 use App\Models\BusinessWebSettingModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\Files\UploadedFile;
@@ -84,6 +85,8 @@ class BusinessController extends BaseController
             'show_map'       => 0,
         ]);
 
+        $this->seedDefaultWebPages((int) $businessId, $name, trim((string) $this->request->getPost('short_description')));
+
         return redirect()->to(base_url('dashboard/businesses'))
             ->with('success', 'Isletme basariyla olusturuldu.');
     }
@@ -93,7 +96,7 @@ class BusinessController extends BaseController
         $business = $this->findAccessibleBusiness($id);
         $tab      = (string) ($this->request->getGet('tab') ?: 'general');
 
-        if (! in_array($tab, ['general', 'web-settings', 'staff'], true)) {
+        if (! in_array($tab, ['general', 'web-pages', 'web-settings', 'staff'], true)) {
             $tab = 'general';
         }
 
@@ -539,5 +542,34 @@ class BusinessController extends BaseController
         }
 
         return $category;
+    }
+
+    private function seedDefaultWebPages(int $businessId, string $businessName, ?string $shortDescription = null): void
+    {
+        $model = new BusinessWebPageModel();
+        $shortDescription = trim((string) $shortDescription);
+        $pages = [
+            ['title' => $businessName, 'slug' => 'anasayfa', 'page_type' => 'home', 'menu_label' => 'Ana Sayfa', 'sort_order' => 1, 'content' => $shortDescription, 'short_intro' => $shortDescription],
+            ['title' => 'Hakkımızda', 'slug' => 'hakkimizda', 'page_type' => 'about', 'menu_label' => 'Hakkımızda', 'sort_order' => 2, 'content' => $shortDescription, 'short_intro' => $shortDescription],
+            ['title' => 'Hizmetler', 'slug' => 'hizmetler', 'page_type' => 'services', 'menu_label' => 'Hizmetler', 'sort_order' => 3, 'content' => null, 'short_intro' => null],
+            ['title' => 'Galeri', 'slug' => 'galeri', 'page_type' => 'gallery', 'menu_label' => 'Galeri', 'sort_order' => 4, 'content' => null, 'short_intro' => null],
+            ['title' => 'İletişim', 'slug' => 'iletisim', 'page_type' => 'contact', 'menu_label' => 'İletişim', 'sort_order' => 5, 'content' => null, 'short_intro' => null],
+            ['title' => 'SSS', 'slug' => 'sss', 'page_type' => 'faq', 'menu_label' => 'SSS', 'sort_order' => 6, 'content' => null, 'short_intro' => null],
+        ];
+
+        foreach ($pages as $page) {
+            $model->insert([
+                'business_id'        => $businessId,
+                'title'              => $page['title'],
+                'slug'               => $page['slug'],
+                'page_type'          => $page['page_type'],
+                'content'            => $page['content'],
+                'short_intro'        => $page['short_intro'],
+                'menu_label'         => $page['menu_label'],
+                'sort_order'         => $page['sort_order'],
+                'is_active'          => 1,
+                'is_visible_in_menu' => 1,
+            ]);
+        }
     }
 }

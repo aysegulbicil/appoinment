@@ -1,6 +1,7 @@
 <?php
 $tabs = [
     'general' => 'Genel Bilgiler',
+    'web-pages' => 'Web Sayfaları',
     'web-settings' => 'Web Ayarlari',
 ];
 ?>
@@ -48,6 +49,8 @@ $tabs = [
                 <?php
                 if (($currentTab ?? 'general') === 'web-settings') {
                     echo view('dashboard/businesses/tabs/web_settings', ['business' => $business, 'webSettings' => $webSettings ?? []]);
+                } elseif (($currentTab ?? 'general') === 'web-pages') {
+                    echo view('dashboard/businesses/tabs/web_pages', ['business' => $business]);
                 } elseif (($currentTab ?? 'general') === 'staff') {
                     echo view('dashboard/businesses/tabs/staff', ['business' => $business]);
                 } else {

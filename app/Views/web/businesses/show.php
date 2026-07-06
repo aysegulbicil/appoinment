@@ -2,128 +2,146 @@
 
 <?= $this->section('content') ?>
 <?php
-$coverImage   = ($webSettings['cover_image'] ?? '') !== '' ? $webSettings['cover_image'] : 'web-assets/images/bg/page-bg.jpg';
-$introImage   = ($webSettings['intro_image'] ?? '') !== '' ? $webSettings['intro_image'] : $coverImage;
-$summaryText  = $webSettings['short_intro'] ?? $business['short_description'] ?? '';
-$detailTitle  = $webSettings['page_title'] ?? $business['name'];
-$galleryItems = $galleryImages ?? [];
-$services     = $services ?? [];
+$pages = $pages ?? [];
+$currentPage = $currentPage ?? null;
+$legacyGallery = $galleryImages ?? [];
+$services = $services ?? [];
 $appointmentErrors = session()->getFlashdata('appointment_errors') ?? [];
 $hasAppointmentErrors = $appointmentErrors !== [];
 ?>
 
-<section class="page-banner overlay pt-170 pb-170 bg_cover" style="background-image: url('<?= base_url($coverImage) ?>');">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="page-banner-content text-center text-white">
-                    <span class="sub-title"><?= esc($business['category'] ?: 'Isletme') ?></span>
-                    <h1 class="page-title"><?= esc($detailTitle) ?></h1>
-                    <ul class="breadcrumb-link text-white">
-                        <li><a href="<?= base_url() ?>">Ana Sayfa</a></li>
-                        <li><a href="<?= base_url('businesses') ?>">Isletmeler</a></li>
-                        <li class="active"><?= esc($business['name']) ?></li>
-                    </ul>
+<?php if ($currentPage !== null): ?>
+    <?= view('web/businesses/partials/menu', ['business' => $business, 'pages' => $pages, 'currentPage' => $currentPage]) ?>
+    <?= view('web/businesses/partials/hero', ['business' => $business, 'webSettings' => $webSettings, 'currentPage' => $currentPage]) ?>
+    <?= view('web/businesses/page', [
+        'business' => $business,
+        'webSettings' => $webSettings,
+        'currentPage' => $currentPage,
+        'galleryImages' => $legacyGallery,
+        'services' => $services,
+        'pages' => $pages,
+    ]) ?>
+<?php else: ?>
+    <?php
+    $coverImage   = ($webSettings['cover_image'] ?? '') !== '' ? $webSettings['cover_image'] : 'web-assets/images/bg/page-bg.jpg';
+    $introImage   = ($webSettings['intro_image'] ?? '') !== '' ? $webSettings['intro_image'] : $coverImage;
+    $summaryText  = $webSettings['short_intro'] ?? $business['short_description'] ?? '';
+    $detailTitle  = $webSettings['page_title'] ?? $business['name'];
+    ?>
+
+    <section class="page-banner overlay pt-170 pb-170 bg_cover" style="background-image: url('<?= base_url($coverImage) ?>');">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="page-banner-content text-center text-white">
+                        <span class="sub-title"><?= esc($business['category'] ?: 'İşletme') ?></span>
+                        <h1 class="page-title"><?= esc($detailTitle) ?></h1>
+                        <ul class="breadcrumb-link text-white">
+                            <li><a href="<?= base_url() ?>">Ana Sayfa</a></li>
+                            <li><a href="<?= base_url('businesses') ?>">İşletmeler</a></li>
+                            <li class="active"><?= esc($business['name']) ?></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="portfolio-details-section pt-120 pb-55">
-    <div class="container">
-        <div class="portfolio-details-wrapper">
-            <div class="row align-items-center">
-                <div class="col-lg-5">
-                    <div class="content mb-50 wow fadeInLeft">
-                        <h2><?= esc($detailTitle) ?></h2>
-                    </div>
-                </div>
-                <div class="col-lg-7">
-                    <div class="content mb-50 wow fadeInRight">
-                        <?php if ($summaryText !== ''): ?>
-                            <p><?= esc($summaryText) ?></p>
-                        <?php else: ?>
-                            <p>Bu isletme icin detayli tanitim icerigi panelden guncelleniyor.</p>
-                        <?php endif; ?>
-                        <button type="button" class="main-btn filled-btn mt-3" data-bs-toggle="modal" data-bs-target="#appointmentModal">
-                            Randevu Al
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <?php if (session()->getFlashdata('appointment_success')): ?>
-                <div class="alert alert-success mb-4"><?= esc(session()->getFlashdata('appointment_success')) ?></div>
-            <?php endif; ?>
-
-            <?php if ($hasAppointmentErrors): ?>
-                <div class="alert alert-danger mb-4">Randevu formunda eksik veya hatali alanlar var.</div>
-            <?php endif; ?>
-
-            <div class="portfolio-info-area business-info-area gray-bg mb-80 wow fadeInUp">
-                <h3>İşletme Bilgileri</h3>
-                <ul>
-                    <li><span class="title">Kategori</span><span><?= esc($business['category'] ?: '-') ?></span></li>
-                    <li><span class="title">Konum</span><span><?= esc(trim(($business['city'] ?? '') . ' / ' . ($business['district'] ?? ''), ' /') ?: '-') ?></span></li>
-                    <?php if (($webSettings['show_contact'] ?? true)): ?>
-                        <li><span class="title">Telefon</span><span><?= esc($business['phone'] ?: '-') ?></span></li>
-                        <li><span class="title">E-posta</span><span><?= esc($business['email'] ?: '-') ?></span></li>
-                    <?php endif; ?>
-                    <?php if (($webSettings['show_prices'] ?? true)): ?>
-                        <li><span class="title">Randevu</span><span><?= $services === [] ? 'Hizmet listesi hazirlaniyor' : 'Online randevu talebi alinabilir' ?></span></li>
-                    <?php endif; ?>
-                </ul>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="content mb-45 wow fadeInLeft">
-                        <h3>Isletme Tanitimi</h3>
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="content mb-45 wow fadeInRight business-detail-content">
-                        <?php if (! empty($webSettings['content'])): ?>
-                            <?= $webSettings['content'] ?>
-                        <?php elseif ($summaryText !== ''): ?>
-                            <p><?= esc($summaryText) ?></p>
-                        <?php else: ?>
-                            <p>Bu alan paneldeki web ayarlarindan doldurulacaktir.</p>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </div>
-
-            <?php if ($galleryItems !== []): ?>
-                <div class="row pt-3">
-                    <div class="col-lg-6">
-                        <div class="content mb-45 wow fadeInLeft">
-                            <h3>Galeri</h3>
+    <section class="portfolio-details-section pt-120 pb-55">
+        <div class="container">
+            <div class="portfolio-details-wrapper">
+                <div class="row align-items-center">
+                    <div class="col-lg-5">
+                        <div class="content mb-50 wow fadeInLeft">
+                            <h2><?= esc($detailTitle) ?></h2>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="content mb-45 wow fadeInRight">
-                            <p>Isletmenin panelden ekledigi gorseller burada listelenir.</p>
+                    <div class="col-lg-7">
+                        <div class="content mb-50 wow fadeInRight">
+                            <?php if ($summaryText !== ''): ?>
+                                <p><?= esc($summaryText) ?></p>
+                            <?php else: ?>
+                                <p>Bu işletme için detaylı tanıtım içeriği panelden güncelleniyor.</p>
+                            <?php endif; ?>
+                            <button type="button" class="main-btn filled-btn mt-3" data-bs-toggle="modal" data-bs-target="#appointmentModal">
+                                Randevu Al
+                            </button>
                         </div>
                     </div>
+                </div>
+
+                <?php if (session()->getFlashdata('appointment_success')): ?>
+                    <div class="alert alert-success mb-4"><?= esc(session()->getFlashdata('appointment_success')) ?></div>
+                <?php endif; ?>
+
+                <?php if ($hasAppointmentErrors): ?>
+                    <div class="alert alert-danger mb-4">Randevu formunda eksik veya hatalı alanlar var.</div>
+                <?php endif; ?>
+
+                <div class="portfolio-info-area business-info-area gray-bg mb-80 wow fadeInUp">
+                    <h3>İşletme Bilgileri</h3>
+                    <ul>
+                        <li><span class="title">Kategori</span><span><?= esc($business['category'] ?: '-') ?></span></li>
+                        <li><span class="title">Konum</span><span><?= esc(trim(($business['city'] ?? '') . ' / ' . ($business['district'] ?? ''), ' /') ?: '-') ?></span></li>
+                        <?php if (($webSettings['show_contact'] ?? true)): ?>
+                            <li><span class="title">Telefon</span><span><?= esc($business['phone'] ?: '-') ?></span></li>
+                            <li><span class="title">E-posta</span><span><?= esc($business['email'] ?: '-') ?></span></li>
+                        <?php endif; ?>
+                        <?php if (($webSettings['show_prices'] ?? true)): ?>
+                            <li><span class="title">Randevu</span><span><?= $services === [] ? 'Hizmet listesi hazırlanıyor' : 'Online randevu talebi alınabilir' ?></span></li>
+                        <?php endif; ?>
+                    </ul>
                 </div>
 
                 <div class="row">
-                    <?php foreach ($galleryItems as $image): ?>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="block-image mb-30 wow fadeInUp business-gallery-card">
-                                <a href="<?= base_url($image) ?>" class="img-popup">
-                                    <img src="<?= base_url($image) ?>" alt="<?= esc($business['name']) ?>">
-                                </a>
+                    <div class="col-lg-12">
+                        <div class="content mb-45 wow fadeInLeft">
+                            <h3>İşletme Tanıtımı</h3>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="content mb-45 wow fadeInRight business-detail-content">
+                            <?php if (! empty($webSettings['content'])): ?>
+                                <?= $webSettings['content'] ?>
+                            <?php elseif ($summaryText !== ''): ?>
+                                <p><?= esc($summaryText) ?></p>
+                            <?php else: ?>
+                                <p>Bu alan paneldeki web ayarlarından doldurulacaktır.</p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+
+                <?php if ($legacyGallery !== []): ?>
+                    <div class="row pt-3">
+                        <div class="col-lg-6">
+                            <div class="content mb-45 wow fadeInLeft">
+                                <h3>Galeri</h3>
                             </div>
                         </div>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
+                        <div class="col-lg-6">
+                            <div class="content mb-45 wow fadeInRight">
+                                <p>İşletmenin panelden eklediği görseller burada listelenir.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <?php foreach ($legacyGallery as $image): ?>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="block-image mb-30 wow fadeInUp business-gallery-card">
+                                    <a href="<?= base_url($image) ?>" class="img-popup">
+                                        <img src="<?= base_url($image) ?>" alt="<?= esc($business['name']) ?>">
+                                    </a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+<?php endif; ?>
 
 <div class="modal fade" id="appointmentModal" tabindex="-1" aria-labelledby="appointmentModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -136,13 +154,13 @@ $hasAppointmentErrors = $appointmentErrors !== [];
                 <?= csrf_field() ?>
                 <div class="modal-body">
                     <?php if ($services === []): ?>
-                        <div class="alert alert-warning mb-0">Bu isletme icin henuz aktif hizmet bulunmuyor.</div>
+                        <div class="alert alert-warning mb-0">Bu işletme için henüz aktif hizmet bulunmuyor.</div>
                     <?php else: ?>
                         <div class="row g-3">
                             <div class="col-md-12 appointment-service-field">
                                 <label class="form-label" for="appointment-service">Hizmet</label>
                                 <select id="appointment-service" name="business_service_id" class="form-control appointment-service-select<?= isset($appointmentErrors['business_service_id']) ? ' is-invalid' : '' ?>" required>
-                                    <option value="">Hizmet secin</option>
+                                    <option value="">Hizmet seçin</option>
                                     <?php foreach ($services as $service): ?>
                                         <option value="<?= esc($service['id']) ?>" <?= (string) old('business_service_id') === (string) $service['id'] ? 'selected' : '' ?>>
                                             <?= esc($service['title']) ?>
@@ -187,8 +205,8 @@ $hasAppointmentErrors = $appointmentErrors !== [];
                     <?php endif; ?>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Vazgec</button>
-                    <button type="submit" class="btn btn-primary" <?= $services === [] ? 'disabled' : '' ?>>Randevu Talebi Gonder</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Vazgeç</button>
+                    <button type="submit" class="btn btn-primary" <?= $services === [] ? 'disabled' : '' ?>>Randevu Talebi Gönder</button>
                 </div>
             </form>
         </div>
@@ -293,6 +311,16 @@ $hasAppointmentErrors = $appointmentErrors !== [];
 
 .business-appointment-modal textarea.form-control {
     min-height: 120px;
+}
+
+.business-page-menu {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(255,255,255,.96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(0,0,0,.06);
+    padding: 16px 0;
 }
 </style>
 
