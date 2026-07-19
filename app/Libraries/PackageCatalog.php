@@ -92,3 +92,4 @@ class PackageCatalog
         return self::all()[0];
     }
 }
+

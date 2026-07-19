@@ -1,23 +1,49 @@
-﻿<section class="hero-section">
-    <div class="hero-wrapper-one">
+<section class="hero-section">
+    <?php
+    $featuredBusinesses = $featuredBusinesses ?? [];
+    $packageIcons = [
+        'free' => 'icon-7.png',
+        'standard' => 'icon-13.png',
+        'premium' => 'icon-16.png',
+    ];
+    $landingGalleryImages = [
+        ['web-assets/images/gallery/features-1.jpg', 'İşletme vitrini'],
+        ['web-assets/images/gallery/features-2.jpg', 'Randevu planlama'],
+        ['web-assets/images/gallery/features-3.jpg', 'Ekip yönetimi'],
+        ['web-assets/images/gallery/features-4.jpg', 'Müşteri deneyimi'],
+        ['web-assets/images/gallery/skill-1.jpg', 'Operasyon takibi'],
+    ];
+    ?>
+    <div class="hero-wrapper-one appointment-hero-wrapper">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-xl-6 order-2 order-xl-1">
                     <div class="hero-content">
                         <span class="tag-line wow fadeInDown" data-wow-delay=".3s"><i class="far fa-arrow-right"></i>Akıllı Randevu Yönetim Sistemi</span>
                         <h1 class="wow fadeInUp" data-wow-delay=".5s">Randevularınızı Otomatikleştirin, İşinizi Büyütün</h1>
+                        <p class="appointment-hero-copy wow fadeInUp" data-wow-delay=".6s">Müşterileriniz online randevu alsın; siz hizmetlerinizi, çalışanlarınızı ve yoğunluğunuzu tek panelden yönetin.</p>
                         <div class="hero-button mb-40 wow fadeInDown" data-wow-delay=".7s">
                             <a href="<?= base_url('register') ?>" class="main-btn primary-btn">Ücretsiz Başla<i class="far fa-arrow-right"></i></a>
                             <a href="#process" class="main-btn secondary-btn">Nasıl Çalışır?<i class="far fa-arrow-right"></i></a>
                         </div>
-                        <div class="award-box wow fadeInUp" data-wow-delay=".8s">
-                            <p>Müşterileriniz online randevu alsın, siz zaman kaybetmeden işinize odaklanın. Tüm randevularınızı, çalışanlarınızı ve hizmetlerinizi tek panelden yönetin.</p>
+                        <div class="appointment-hero-stats wow fadeInUp" data-wow-delay=".8s">
+                            <span><strong>4 adım</strong> hızlı kurulum</span>
+                            <span><strong>7/24</strong> online randevu</span>
+                            <span><strong>Tek panel</strong> işletme yönetimi</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-6 order-1 order-xl-2">
-                    <div class="hero-one-image wow fadeInRight" data-wow-delay=".8s">
-                        <img src="web-assets/images/hero/hero-one_img-1.webp" alt="Hero Image">
+                    <div class="hero-one-image appointment-hero-visual wow fadeInRight" data-wow-delay=".8s">
+                        <img src="web-assets/images/hero/hero-one_img-1.webp" alt="Randevu yönetim paneli">
+                        <div class="floating-appointment-card card-one">
+                            <span>Bugün</span>
+                            <strong>12 yeni randevu</strong>
+                        </div>
+                        <div class="floating-appointment-card card-two">
+                            <span>Sıradaki</span>
+                            <strong>Saç bakım - 14:30</strong>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -26,9 +52,9 @@
 </section>
 
 <!--====== Start Pricing Section ======-->
-<section class="pricing-section pb-90">
+<section class="pricing-section appointment-pricing pb-90" id="packages">
     <div class="container-fluid">
-        <div class="pricing-wrapper bg_cover pt-120 pb-90" style="background-image: url(assets/images/bg/pattern-bg.jpg);">
+        <div class="pricing-wrapper bg_cover pt-120 pb-90" style="background-image: url(web-assets/images/bg/pattern-bg.jpg);">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-9">
@@ -41,20 +67,24 @@
                 <div class="row justify-content-center">
                     <?php foreach (($packages ?? []) as $package): ?>
                         <div class="col-lg-4 col-md-6 col-sm-12">
-                            <div class="single-pricing-item mb-40 wow fadeInUp">
+                            <?php $isFeaturedPlan = ($package['code'] ?? '') === 'standard'; ?>
+                            <div class="single-pricing-item appointment-plan-card<?= $isFeaturedPlan ? ' is-featured' : '' ?> mb-40 wow fadeInUp">
+                                <div class="plan-icon">
+                                    <img src="web-assets/images/icon/<?= esc($packageIcons[$package['code']] ?? 'icon-7.png') ?>" alt="">
+                                </div>
                                 <div class="pricing-head">
-                                    <span class="badge bg-white text-dark mb-3"><?= esc($package['badge']) ?></span>
+                                    <span class="plan-badge"><?= esc($package['badge']) ?></span>
                                     <h3 class="title"><?= esc($package['name']) ?></h3>
                                     <p class="price"><?= esc($package['priceLabel']) ?></p>
                                 </div>
                                 <div class="pricing-body">
-                                    <a href="<?= base_url('packages/select/' . $package['code']) ?>" class="main-btn primary-btn"><?= esc($package['ctaLabel']) ?><i class="far fa-arrow-right"></i></a>
                                     <p><?= esc($package['description']) ?></p>
                                     <ul class="pricing-check">
                                         <?php foreach ($package['features'] as $feature): ?>
                                             <li class="check"><i class="flaticon-check"></i><?= esc($feature) ?></li>
                                         <?php endforeach; ?>
                                     </ul>
+                                    <a href="<?= base_url('packages/select/' . $package['code']) ?>" class="main-btn primary-btn"><?= esc($package['ctaLabel']) ?><i class="far fa-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -86,15 +116,57 @@
     </div>
 </section>
 
-<section class="gallery-section pt-60 wow fadeInUp">
+<section class="gallery-section landing-gallery-strip pt-60 wow fadeInUp">
     <div class="container-fluid">
-        <div class="slider-active-4-item">
-            <?php $galleryImages = ['gallery-1.jpg', 'gallery-2.jpg', 'gallery-3.jpg', 'gallery-4.jpg', 'gallery-2.jpg']; ?>
-            <?php foreach ($galleryImages as $image): ?>
-                <div class="single-portfolio-item">
-                    <div class="img-holder">
-                        <img src="web-assets/images/gallery/<?= esc($image) ?>" alt="Galeri Görseli">
-                    </div>
+        <div class="slider-active-5-item">
+            <?php foreach ($landingGalleryImages as [$image, $label]): ?>
+                <div class="landing-gallery-slide">
+                    <img src="<?= esc($image) ?>" alt="<?= esc($label) ?>">
+                    <span><?= esc($label) ?></span>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+
+<section class="featured-businesses-section pt-100 pb-90" id="featured-businesses">
+    <div class="container">
+        <div class="row align-items-end mb-55">
+            <div class="col-lg-8">
+                <div class="section-title wow fadeInLeft">
+                    <span class="sub-title">Öne Çıkan İşletmeler</span>
+                    <h2>Randevu altyapısını vitriniyle birlikte kullanan işletmeler</h2>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="featured-business-note wow fadeInRight">
+                    Bu alan şimdilik aktif işletmelerden beslenir. Panelde “öne çıkar” seçimi eklendiğinde aynı kartlar doğrudan o yönetime bağlanacak.
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <?php foreach ($featuredBusinesses as $index => $business): ?>
+                <?php
+                $image = $business['image'] ?: $landingGalleryImages[$index % count($landingGalleryImages)][0];
+                $url = ! empty($business['slug']) ? base_url('businesses/' . $business['slug']) : base_url('businesses');
+                ?>
+                <div class="col-xl-4 col-md-6 col-sm-12">
+                    <article class="featured-business-card wow fadeInUp" data-wow-delay="<?= esc((string) (.1 + ($index * .08))) ?>s">
+                        <a href="<?= esc($url) ?>" class="featured-business-image">
+                            <img src="<?= esc($image) ?>" alt="<?= esc($business['name']) ?>">
+                        </a>
+                        <div class="featured-business-content">
+                            <div class="featured-business-meta">
+                                <span><?= esc($business['category'] ?: 'Hizmet İşletmesi') ?></span>
+                                <?php if (! empty($business['location'])): ?>
+                                    <span><?= esc($business['location']) ?></span>
+                                <?php endif; ?>
+                            </div>
+                            <h3><a href="<?= esc($url) ?>"><?= esc($business['name']) ?></a></h3>
+                            <p><?= esc($business['description']) ?></p>
+                            <a href="<?= esc($url) ?>" class="btn-link">İşletmeyi Gör<i class="far fa-arrow-right"></i></a>
+                        </div>
+                    </article>
                 </div>
             <?php endforeach; ?>
         </div>

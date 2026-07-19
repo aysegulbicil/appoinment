@@ -5,9 +5,9 @@
     <!--====== Required meta tags ======-->
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="description" content="Insurance, Health, Agency">
+    <meta name="description" content="Akıllı randevu yönetimi, işletme vitrini ve online rezervasyon sistemi">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?= esc($pageTitle ?? 'Surancy - Insurance Agency HTML Template') ?></title>
+    <title><?= esc($pageTitle ?? 'Akıllı Randevu Yönetim Sistemi') ?></title>
     <base href="<?= rtrim(base_url(), '/') ?>/">
     <link rel="shortcut icon" href="web-assets/images/favicon.ico" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -48,23 +48,23 @@
                 <a href="<?= base_url('/') ?>"><img src="web-assets/images/logo/logo-black.png" alt="Logo"></a>
             </div>
             <div class="about-us">
-                <h5 class="panel-widget-title">About Us</h5>
-                <p>Ut enim ad minima veniam, quis nostrum aliquid commodie buy business insurance the set experience.</p>
+                <h5 class="panel-widget-title">Randevu Sistemi</h5>
+                <p>İşletmenizin online randevu, hizmet, personel ve web vitrini süreçlerini tek panelde yönetin.</p>
             </div>
             <div class="contact-us">
-                <h5 class="panel-widget-title">Contact Us</h5>
+                <h5 class="panel-widget-title">Bize Ulaşın</h5>
                 <form>
                     <div class="form_group">
-                        <input type="text" class="form_control" placeholder="Enter Name" name="name" required>
+                        <input type="text" class="form_control" placeholder="Adınız" name="name" required>
                     </div>
                     <div class="form_group">
-                        <input type="email" class="form_control" placeholder="Enter Email" name="email" required>
+                        <input type="email" class="form_control" placeholder="E-posta adresiniz" name="email" required>
                     </div>
                     <div class="form_group">
-                        <textarea class="form_control" placeholder="Message" name="message" rows="3"></textarea>
+                        <textarea class="form_control" placeholder="Mesajınız" name="message" rows="3"></textarea>
                     </div>
                     <div class="form_group">
-                        <button class="main-btn secondary-btn">Submit Now</button>
+                        <button class="main-btn secondary-btn">Gönder</button>
                     </div>
                 </form>
             </div>
@@ -77,16 +77,16 @@
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="top-left">
-                            <span><i class="far fa-envelope"></i><a href="mailto:supportinsurance@gmail.com">supportinsurance@gmail.com</a></span>
-                            <span><i class="far fa-phone"></i><a href="tel:+222(345)66688">+222 (345) 666 88</a></span>
+                            <span><i class="far fa-envelope"></i><a href="mailto:destek@randevusistemi.test">destek@randevusistemi.test</a></span>
+                            <span><i class="far fa-phone"></i><a href="tel:+905551112233">+90 555 111 22 33</a></span>
                         </div>
                     </div>
                     <div class="col-lg-5">
                         <div class="top-right">
                             <div class="lang-dropdown">
                                 <select>
-                                    <option value="01">English</option>
-                                    <option value="02">French</option>
+                                    <option value="tr">Türkçe</option>
+                                    <option value="en">English</option>
                                 </select>
                             </div>
                             <ul class="social-link">
@@ -114,7 +114,7 @@
                         <div class="nav-search mb-30 d-block d-xl-none ">
                             <form>
                                 <div class="form_group">
-                                    <input type="email" class="form_control" placeholder="Search Here" name="email" required>
+                                    <input type="search" class="form_control" placeholder="İşletme ara" name="search">
                                     <button class="search-btn"><i class="fas fa-search"></i></button>
                                 </div>
                             </form>
@@ -123,6 +123,8 @@
                             <ul>
                                 <li><a href="<?= base_url('/') ?>">Ana Sayfa</a></li>
                                 <li><a href="<?= base_url('businesses') ?>">İşletmeler</a></li>
+                                <li><a href="<?= base_url('/#packages') ?>">Paketler</a></li>
+                                <li><a href="<?= base_url('/#featured-businesses') ?>">Öne Çıkanlar</a></li>
                                 <li><a href="<?= base_url('/#process') ?>">Nasıl Çalışır?</a></li>
                                 <li><a href="<?= base_url('login') ?>">Giriş Yap</a></li>
                                 <li><a href="<?= base_url('register') ?>">Kayıt Ol</a></li>
@@ -158,3 +160,4 @@
         </div>
     </header>
     <main>
+

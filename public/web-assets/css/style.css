@@ -5089,3 +5089,287 @@ ul.slick-dots li.slick-active {
   mix-blend-mode: multiply;
 }
 /*# sourceMappingURL=style.css.map */
+
+/* Landing polish for appointment homepage */
+.appointment-hero-wrapper {
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 70px;
+}
+.appointment-hero-wrapper:after {
+  position: absolute;
+  content: "";
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 120px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), #fff);
+  pointer-events: none;
+}
+.appointment-hero-copy {
+  max-width: 620px;
+  margin: 22px 0 32px;
+  font-size: 19px;
+  line-height: 1.65;
+}
+.appointment-hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 650px;
+}
+.appointment-hero-stats span,
+.floating-appointment-card,
+.featured-business-note,
+.plan-badge {
+  border: 1px solid rgba(15, 15, 45, 0.1);
+  background: rgba(255, 255, 255, 0.9);
+}
+.appointment-hero-stats span {
+  display: block;
+  padding: 14px 16px;
+  border-radius: 8px;
+  color: #666;
+  box-shadow: 0 20px 50px rgba(15, 15, 45, 0.08);
+}
+.appointment-hero-stats strong {
+  display: block;
+  color: #0F0F2D;
+}
+.appointment-hero-visual {
+  position: relative;
+  isolation: isolate;
+}
+.appointment-hero-visual img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  animation: appointmentFloat 5.5s ease-in-out infinite;
+}
+.floating-appointment-card {
+  position: absolute;
+  z-index: 2;
+  min-width: 190px;
+  padding: 14px 18px;
+  border-radius: 8px;
+  box-shadow: 0 25px 60px rgba(15, 15, 45, 0.14);
+}
+.floating-appointment-card span {
+  display: block;
+  margin-bottom: 4px;
+  color: #666;
+  font-size: 13px;
+}
+.floating-appointment-card strong {
+  color: #0F0F2D;
+  font-size: 15px;
+}
+.floating-appointment-card.card-one {
+  top: 12%;
+  left: 2%;
+  animation: appointmentCardOne 4.8s ease-in-out infinite;
+}
+.floating-appointment-card.card-two {
+  right: 4%;
+  bottom: 17%;
+  animation: appointmentCardTwo 5.2s ease-in-out infinite;
+}
+.appointment-pricing {
+  position: relative;
+}
+.appointment-pricing .pricing-wrapper {
+  border-radius: 8px;
+  overflow: hidden;
+}
+.appointment-plan-card {
+  position: relative;
+  min-height: 100%;
+  border: 1px solid rgba(15, 15, 45, 0.08);
+  border-radius: 8px;
+  transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+}
+.appointment-plan-card:hover,
+.appointment-plan-card.is-featured {
+  transform: translateY(-10px);
+  border-color: rgba(255, 185, 102, 0.6);
+}
+.appointment-plan-card.is-featured {
+  box-shadow: 0 30px 70px rgba(15, 15, 45, 0.16);
+}
+.appointment-plan-card .plan-icon {
+  width: 62px;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+  border-radius: 8px;
+  background: #E1EEDD;
+}
+.appointment-plan-card.is-featured .plan-icon {
+  background: #FFB966;
+}
+.appointment-plan-card .plan-icon img {
+  max-width: 38px;
+}
+.plan-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 7px 14px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  color: #193B1E;
+  font-weight: 700;
+}
+.appointment-plan-card .pricing-body {
+  display: flex;
+  min-height: 335px;
+  flex-direction: column;
+}
+.appointment-plan-card .pricing-check {
+  flex: 1;
+}
+.landing-gallery-strip {
+  overflow: hidden;
+}
+.landing-gallery-slide {
+  position: relative;
+  margin: 0 12px;
+  height: 250px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.landing-gallery-slide img,
+.featured-business-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .45s ease;
+}
+.landing-gallery-slide:hover img,
+.featured-business-card:hover .featured-business-image img {
+  transform: scale(1.06);
+}
+.landing-gallery-slide span {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(15, 15, 45, 0.86);
+  color: #fff;
+  font-weight: 700;
+}
+.featured-businesses-section {
+  position: relative;
+  background: linear-gradient(180deg, #fff 0%, #F7F8F4 100%);
+}
+.featured-business-note {
+  padding: 18px 20px;
+  border-radius: 8px;
+  color: #666;
+  line-height: 1.55;
+}
+.featured-business-card {
+  height: calc(100% - 30px);
+  margin-bottom: 30px;
+  overflow: hidden;
+  border: 1px solid rgba(15, 15, 45, 0.08);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 22px 55px rgba(15, 15, 45, 0.08);
+  transition: transform .28s ease, box-shadow .28s ease;
+}
+.featured-business-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 32px 70px rgba(15, 15, 45, 0.14);
+}
+.featured-business-image {
+  display: block;
+  height: 235px;
+  overflow: hidden;
+}
+.featured-business-content {
+  padding: 28px;
+}
+.featured-business-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.featured-business-meta span {
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #E1EEDD;
+  color: #193B1E;
+  font-size: 13px;
+  font-weight: 700;
+}
+.featured-business-content h3 {
+  margin-bottom: 12px;
+  font-size: 24px;
+  line-height: 1.25;
+}
+.featured-business-content p {
+  margin-bottom: 20px;
+}
+.process-section {
+  background: #fff;
+}
+.single-process-item .process-inner-content {
+  border-radius: 8px;
+  transition: transform .28s ease, box-shadow .28s ease;
+}
+.single-process-item:hover .process-inner-content {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 55px rgba(15, 15, 45, 0.13);
+}
+.appointment-cta {
+  margin-top: 40px;
+}
+
+@keyframes appointmentFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+@keyframes appointmentCardOne {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(10px, -8px); }
+}
+@keyframes appointmentCardTwo {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-8px, 10px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .appointment-hero-visual img,
+  .floating-appointment-card {
+    animation: none;
+  }
+}
+@media (max-width: 991px) {
+  .appointment-hero-stats {
+    grid-template-columns: 1fr;
+  }
+  .floating-appointment-card {
+    position: static;
+    margin: 12px 0 0;
+  }
+  .appointment-plan-card .pricing-body {
+    min-height: auto;
+  }
+}
+@media (max-width: 575px) {
+  .appointment-hero-copy {
+    font-size: 16px;
+  }
+  .landing-gallery-slide,
+  .featured-business-image {
+    height: 210px;
+  }
+  .featured-business-content {
+    padding: 22px;
+  }
+}
