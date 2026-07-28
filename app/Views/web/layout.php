@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="tr">
 <head>
-    <?= view('web/partials/head', ['pageTitle' => $pageTitle ?? 'Surancy - Insurance Agency HTML Template']) ?>
+    <?= view('web/partials/head', ['pageTitle' => $pageTitle ?? 'Randevu — İşletme Yönetimi']) ?>
 </head>
-<body>
-    <?= view('web/partials/intro') ?>
-    <main>
+<body class="public-site">
+    <?= view('web/partials/site-header') ?>
+    <main id="main-content">
         <?= $this->renderSection('content') ?>
     </main>
-    <?= view('web/partials/footer') ?>
+    <?= view('web/partials/site-footer') ?>
     <?= view('web/partials/scripts') ?>
 </body>
 </html>

@@ -1,10 +1,2 @@
-<script src="web-assets/vendor/jquery-3.6.0.min.js"></script>
-<script src="web-assets/vendor/popper/popper.min.js"></script>
-<script src="web-assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="web-assets/vendor/slick/slick.min.js"></script>
-<script src="web-assets/vendor/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
-<script src="web-assets/vendor/jquery.counterup.min.js"></script>
-<script src="web-assets/vendor/jquery.waypoints.js"></script>
-<script src="web-assets/vendor/nice-select/js/jquery.nice-select.min.js"></script>
-<script src="web-assets/vendor/wow.min.js"></script>
-<script src="web-assets/js/theme.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="web-assets/js/public-saas.js"></script>
