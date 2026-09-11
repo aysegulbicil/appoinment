@@ -1,0 +1,320 @@
+.product-showcase-section {
+    padding: 104px 0 54px;
+    background:
+        radial-gradient(circle at 50% 48%, rgba(23, 74, 43, 0.055), transparent 38%),
+        #fafbf9;
+    color: #172019;
+}
+
+.product-showcase-section + .featured-businesses-section {
+    padding-top: 66px !important;
+}
+
+.product-showcase-section::before {
+    inset: 0 0 auto;
+    height: 1px;
+    background: #e5e9e6;
+    mask-image: none;
+}
+
+.product-showcase-glow {
+    display: none;
+}
+
+.product-showcase-heading {
+    max-width: 850px;
+    margin: 0 auto 48px;
+    text-align: center;
+}
+
+.product-showcase-eyebrow {
+    justify-content: center;
+    margin-bottom: 16px;
+    color: #23613f;
+}
+
+.product-showcase-heading-grid {
+    display: block;
+}
+
+.product-showcase-heading h2 {
+    max-width: none;
+    margin: 0;
+    color: #111a14;
+    font-size: clamp(40px, 4.1vw, 60px);
+    line-height: 1.04;
+    letter-spacing: -2.4px;
+}
+
+.product-showcase-heading p {
+    max-width: 650px;
+    margin: 19px auto 0;
+    color: #68726b;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.product-showcase {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+.product-showcase-tabs {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    max-width: 1160px;
+    margin: 0 auto;
+    overflow: hidden;
+    gap: 0;
+    border: 1px solid #dfe5e0;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 12px 34px rgba(20, 34, 25, 0.055);
+}
+
+.product-showcase-tab,
+.product-showcase-tab.is-active {
+    position: relative;
+    display: grid;
+    grid-template-columns: 25px minmax(0, 1fr);
+    align-items: center;
+    width: 100%;
+    min-height: 88px;
+    padding: 17px 16px;
+    border: 0;
+    border-right: 1px solid #e6eae7;
+    border-radius: 0;
+    background: #fff;
+    color: #253129;
+    box-shadow: none;
+    transform: none;
+}
+
+.product-showcase-tab:last-child {
+    border-right: 0;
+}
+
+.product-showcase-tab:hover {
+    border-color: #e6eae7;
+    background: #f7f9f7;
+    transform: none;
+}
+
+.product-showcase-tab.is-active {
+    background: #edf4ef;
+    color: #174a2b;
+}
+
+.product-showcase-tab.is-active::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: #ffb55b;
+    content: "";
+}
+
+.product-showcase-number,
+.product-showcase-tab.is-active .product-showcase-number {
+    align-self: center;
+    padding: 0;
+    color: #8c9890;
+    font-size: 10px;
+}
+
+.product-showcase-tab.is-active .product-showcase-number {
+    color: #b87525;
+}
+
+.product-showcase-tab-copy strong {
+    font-size: 14px;
+    line-height: 1.25;
+}
+
+.product-showcase-tab-copy > span,
+.product-showcase-tab.is-active .product-showcase-tab-copy > span,
+.product-showcase-arrow {
+    display: none;
+}
+
+.product-showcase-stage {
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 12px;
+    border: 1px solid #e0e5e1;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 28px 70px rgba(20, 34, 25, 0.12);
+    backdrop-filter: none;
+}
+
+.product-showcase-stage-meta {
+    min-height: 38px;
+    padding: 3px 5px 11px;
+    color: #7c8980;
+    font-size: 10px;
+}
+
+.product-showcase-counter strong {
+    color: #174a2b;
+}
+
+.product-showcase-panels {
+    aspect-ratio: auto;
+    overflow: visible;
+    border-radius: 12px;
+    background: transparent;
+}
+
+.product-showcase-panel {
+    position: static;
+    overflow: visible;
+    border-radius: 12px;
+}
+
+.product-showcase-panel::after {
+    display: none;
+}
+
+.product-showcase-panel img {
+    display: block;
+    width: 100%;
+    height: clamp(430px, 39vw, 555px);
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.product-showcase-panel figcaption {
+    position: static;
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr);
+    align-items: start;
+    gap: 14px;
+    padding: 20px 10px 10px;
+    color: #172019;
+}
+
+.product-showcase-panel figcaption > span {
+    width: 34px;
+    height: 34px;
+    border: 1px solid #d8e0da;
+    color: #9b692d;
+}
+
+.product-showcase-panel figcaption strong {
+    display: block;
+    margin: 0 0 4px;
+    color: #172019;
+    font-size: 17px;
+}
+
+.product-showcase-panel figcaption p {
+    max-width: 650px;
+    margin: 0;
+    color: #68726b;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.product-showcase-progress {
+    height: 2px;
+    margin: 10px 3px 0;
+    background: #edf0ee;
+}
+
+@media (max-width: 991px) {
+    .product-showcase-section {
+        padding: 84px 0 50px;
+    }
+
+    .product-showcase-heading {
+        margin-bottom: 38px;
+    }
+
+    .product-showcase-tabs {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        overflow: visible;
+        gap: 8px;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .product-showcase-tab,
+    .product-showcase-tab.is-active {
+        min-height: 70px;
+        border: 1px solid #dfe5e0;
+        border-radius: 11px;
+    }
+
+    .product-showcase-tab:last-child {
+        grid-column: 1 / -1;
+        border-right: 1px solid #dfe5e0;
+    }
+
+    .product-showcase-panel img {
+        height: clamp(300px, 58vw, 500px);
+    }
+}
+
+@media (max-width: 575px) {
+    .product-showcase-section {
+        padding: 72px 0 46px;
+    }
+
+    .product-showcase-heading h2 {
+        font-size: 39px;
+        letter-spacing: -1.7px;
+    }
+
+    .product-showcase-heading p {
+        font-size: 14px;
+    }
+
+    .product-showcase {
+        gap: 18px;
+    }
+
+    .product-showcase-tab,
+    .product-showcase-tab.is-active {
+        min-height: 66px;
+        padding: 12px 10px;
+    }
+
+    .product-showcase-tab-copy strong {
+        font-size: 12px;
+    }
+
+    .product-showcase-stage {
+        padding: 9px;
+        border-radius: 14px;
+    }
+
+    .product-showcase-panel img {
+        height: 220px;
+        border-radius: 9px;
+    }
+
+    .product-showcase-panel figcaption {
+        grid-template-columns: 30px minmax(0, 1fr);
+        gap: 10px;
+        padding: 16px 4px 8px;
+    }
+
+    .product-showcase-panel figcaption > span {
+        width: 28px;
+        height: 28px;
+    }
+
+    .product-showcase-panel figcaption strong {
+        font-size: 15px;
+    }
+
+    .product-showcase-panel figcaption p {
+        font-size: 12px;
+    }
+}

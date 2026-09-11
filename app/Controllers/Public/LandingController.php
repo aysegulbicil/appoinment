@@ -12,7 +12,7 @@ class LandingController extends BaseController
     public function index()
     {
         return implode('', [
-            view('web/header', ['pageTitle' => 'Akıllı Randevu Yönetim Sistemi']),
+            view('web/header', ['pageTitle' => 'Randevu — İşletme Yönetimi']),
             view('web/index', [
                 'packages' => PackageCatalog::all(),
                 'featuredBusinesses' => $this->featuredBusinesses(),
@@ -38,55 +38,22 @@ class LandingController extends BaseController
             $businesses = [];
         }
 
-        if ($businesses === []) {
-            return $this->fallbackFeaturedBusinesses();
-        }
+        $businesses = array_filter($businesses, static function (array $business): bool {
+            return trim((string) ($business['cover_image'] ?: $business['intro_image'])) !== '';
+        });
 
-        return array_map(static function (array $business): array {
+        return array_values(array_map(static function (array $business): array {
             return [
                 'name' => $business['name'] ?? '',
                 'slug' => $business['slug'] ?? null,
-                'category' => $business['category'] ?? 'Hizmet İşletmesi',
+                'category' => $business['category'] ?? 'Hizmet işletmesi',
                 'location' => trim(implode(' / ', array_filter([
                     $business['city'] ?? null,
                     $business['district'] ?? null,
                 ]))),
-                'description' => $business['short_description'] ?? 'Online randevu altyapısıyla müşterilerine daha hızlı dönüş yapan işletme.',
-                'image' => $business['cover_image'] ?: ($business['intro_image'] ?: null),
+                'description' => trim((string) ($business['short_description'] ?? '')),
+                'image' => $business['cover_image'] ?: $business['intro_image'],
             ];
-        }, $businesses);
-    }
-
-    /**
-     * @return array<int, array<string, string|null>>
-     */
-    private function fallbackFeaturedBusinesses(): array
-    {
-        return [
-            [
-                'name' => 'Glow Beauty Studio',
-                'slug' => null,
-                'category' => 'Güzellik Salonu',
-                'location' => 'İstanbul / Kadıköy',
-                'description' => 'Cilt bakımı, saç ve bakım randevularını tek panelden yöneten örnek işletme.',
-                'image' => 'web-assets/images/gallery/features-1.jpg',
-            ],
-            [
-                'name' => 'Dental Care Plus',
-                'slug' => null,
-                'category' => 'Klinik',
-                'location' => 'Ankara / Çankaya',
-                'description' => 'Hasta takibi, doktor programı ve uygun saat önerileri için modern randevu akışı.',
-                'image' => 'web-assets/images/gallery/features-4.jpg',
-            ],
-            [
-                'name' => 'Fit Motion PT',
-                'slug' => null,
-                'category' => 'Spor ve Danışmanlık',
-                'location' => 'İzmir / Alsancak',
-                'description' => 'Kişisel antrenman, seans planlama ve ekip takibi için hızlı rezervasyon deneyimi.',
-                'image' => 'web-assets/images/gallery/skill-1.jpg',
-            ],
-        ];
+        }, $businesses));
     }
 }

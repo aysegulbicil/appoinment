@@ -1,269 +1,134 @@
-<section class="hero-section">
-    <?php
-    $featuredBusinesses = $featuredBusinesses ?? [];
-    $packageIcons = [
-        'free' => 'icon-7.png',
-        'standard' => 'icon-13.png',
-        'premium' => 'icon-16.png',
-    ];
-    $landingGalleryImages = [
-        ['web-assets/images/gallery/features-1.jpg', 'İşletme vitrini'],
-        ['web-assets/images/gallery/features-2.jpg', 'Randevu planlama'],
-        ['web-assets/images/gallery/features-3.jpg', 'Ekip yönetimi'],
-        ['web-assets/images/gallery/features-4.jpg', 'Müşteri deneyimi'],
-        ['web-assets/images/gallery/skill-1.jpg', 'Operasyon takibi'],
-    ];
-    ?>
-    <div class="hero-wrapper-one appointment-hero-wrapper">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-xl-6 order-2 order-xl-1">
-                    <div class="hero-content">
-                        <span class="tag-line wow fadeInDown" data-wow-delay=".3s"><i class="far fa-arrow-right"></i>Akıllı Randevu Yönetim Sistemi</span>
-                        <h1 class="wow fadeInUp" data-wow-delay=".5s">Randevularınızı Otomatikleştirin, İşinizi Büyütün</h1>
-                        <p class="appointment-hero-copy wow fadeInUp" data-wow-delay=".6s">Müşterileriniz online randevu alsın; siz hizmetlerinizi, çalışanlarınızı ve yoğunluğunuzu tek panelden yönetin.</p>
-                        <div class="hero-button mb-40 wow fadeInDown" data-wow-delay=".7s">
-                            <a href="<?= base_url('register') ?>" class="main-btn primary-btn">Ücretsiz Başla<i class="far fa-arrow-right"></i></a>
-                            <a href="#process" class="main-btn secondary-btn">Nasıl Çalışır?<i class="far fa-arrow-right"></i></a>
-                        </div>
-                        <div class="appointment-hero-stats wow fadeInUp" data-wow-delay=".8s">
-                            <span><strong>4 adım</strong> hızlı kurulum</span>
-                            <span><strong>7/24</strong> online randevu</span>
-                            <span><strong>Tek panel</strong> işletme yönetimi</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6 order-1 order-xl-2">
-                    <div class="hero-one-image appointment-hero-visual wow fadeInRight" data-wow-delay=".8s">
-                        <img src="web-assets/images/hero/hero-one_img-1.webp" alt="Randevu yönetim paneli">
-                        <div class="floating-appointment-card card-one">
-                            <span>Bugün</span>
-                            <strong>12 yeni randevu</strong>
-                        </div>
-                        <div class="floating-appointment-card card-two">
-                            <span>Sıradaki</span>
-                            <strong>Saç bakım - 14:30</strong>
-                        </div>
-                    </div>
+<?php
+$featuredBusinesses = $featuredBusinesses ?? [];
+$packages = $packages ?? [];
+$freePackage = $packages[0] ?? null;
+?>
+
+<section class="saas-hero">
+    <div class="site-container saas-hero__grid">
+        <div class="saas-hero__content">
+            <span class="eyebrow"><i class="far fa-sparkles" aria-hidden="true"></i> İşletmeniz için online randevu sistemi</span>
+            <h1>Randevular WhatsApp’ta kaybolmasın.</h1>
+            <p class="saas-hero__lead">Müşterileriniz uygun saati kendisi seçsin; siz hizmetlerinizi, ekibinizi ve randevularınızı tek panelden yönetin.</p>
+            <div class="button-group">
+                <a class="button button--primary" href="<?= base_url('register') ?>">Ücretsiz hesabını oluştur <i class="far fa-arrow-right" aria-hidden="true"></i></a>
+                <a class="button button--secondary" href="#product">Sistemi incele <i class="far fa-play-circle" aria-hidden="true"></i></a>
+            </div>
+            <p class="proof-line"><i class="far fa-check-circle" aria-hidden="true"></i> Kredi kartı gerekmez <span>•</span> 5 dakikada kurulum <span>•</span> Ücretsiz başlayın</p>
+        </div>
+
+        <div class="hero-product" aria-label="Randevu yönetim paneli ön izlemesi">
+            <div class="hero-product__glow" aria-hidden="true"></div>
+            <div class="browser-frame hero-product__desktop">
+                <div class="browser-frame__bar"><span></span><span></span><span></span><small>Yönetim paneli</small></div>
+                <img src="web-assets/images/landing-digital/operations-dashboard.webp" alt="Randevu, doluluk ve operasyon bilgilerinin yer aldığı yönetim paneli" width="1536" height="1024">
+            </div>
+            <div class="phone-frame hero-product__phone" aria-label="Mobil randevu ekranı">
+                <div class="phone-frame__notch"></div>
+                <div class="phone-frame__body">
+                    <span class="mini-brand"><i class="far fa-calendar-check"></i> Randevu</span>
+                    <strong>Uygun saatini seç</strong>
+                    <small>28 Temmuz, Salı</small>
+                    <div class="mini-times"><span>10:30</span><span class="is-selected">11:00</span><span>11:30</span><span>13:00</span></div>
+                    <button type="button" tabindex="-1">Devam et</button>
                 </div>
             </div>
+            <div class="floating-fact floating-fact--top"><span class="fact-icon fact-icon--green"><i class="far fa-check"></i></span><div><small>Yeni randevu</small><strong>Bugün, 11:00</strong></div></div>
+            <div class="floating-fact floating-fact--bottom"><small>Bugünkü doluluk</small><strong>%78</strong><span class="fact-progress"><i></i></span></div>
         </div>
     </div>
 </section>
 
-<!--====== Start Pricing Section ======-->
-<section class="pricing-section appointment-pricing pb-90" id="packages">
-    <div class="container-fluid">
-        <div class="pricing-wrapper bg_cover pt-120 pb-90" style="background-image: url(web-assets/images/bg/pattern-bg.jpg);">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-9">
-                        <div class="section-title text-center mb-55 wow fadeInDown">
-                            <span class="sub-title">Ücretlendirme</span>
-                            <h2>Kendinize Uygun Planı Seçin ve Başlayın</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <?php foreach (($packages ?? []) as $package): ?>
-                        <div class="col-lg-4 col-md-6 col-sm-12">
-                            <?php $isFeaturedPlan = ($package['code'] ?? '') === 'standard'; ?>
-                            <div class="single-pricing-item appointment-plan-card<?= $isFeaturedPlan ? ' is-featured' : '' ?> mb-40 wow fadeInUp">
-                                <div class="plan-icon">
-                                    <img src="web-assets/images/icon/<?= esc($packageIcons[$package['code']] ?? 'icon-7.png') ?>" alt="">
-                                </div>
-                                <div class="pricing-head">
-                                    <span class="plan-badge"><?= esc($package['badge']) ?></span>
-                                    <h3 class="title"><?= esc($package['name']) ?></h3>
-                                    <p class="price"><?= esc($package['priceLabel']) ?></p>
-                                </div>
-                                <div class="pricing-body">
-                                    <p><?= esc($package['description']) ?></p>
-                                    <ul class="pricing-check">
-                                        <?php foreach ($package['features'] as $feature): ?>
-                                            <li class="check"><i class="flaticon-check"></i><?= esc($feature) ?></li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                    <a href="<?= base_url('packages/select/' . $package['code']) ?>" class="main-btn primary-btn"><?= esc($package['ctaLabel']) ?><i class="far fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        </div>
+<section class="industry-strip" aria-label="Uygun sektörler">
+    <div class="site-container industry-strip__inner">
+        <span class="industry-strip__label">Her hizmet işletmesine uyum sağlar</span>
+        <div class="industry-chips"><span>Güzellik salonları</span><span>Kuaförler</span><span>Klinikler</span><span>Danışmanlar</span><span>Spor eğitmenleri</span><span>Teknik servisler</span></div>
     </div>
-</section><!--====== End Pricing Section ======-->
+</section>
 
-<section class="cta-section cta_area-one">
-    <div class="container-fluid">
-        <div class="cta-wrapper yellow-bg">
-            <div class="row align-items-center">
-                <div class="col-lg-6 order-2 order-lg-1">
-                    <div class="cta_one-content-box mb-30 wow fadeInUp">
-                        <h2>Doğru paketi seçin, kurulumu hemen başlatın</h2>
-                        <a href="#process" class="main-btn primary-btn">Süreci İncele<i class="far fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-6 order-1 order-lg-2">
-                    <div class="cta_image-one float-xl-end p-r z-1 mb-30 wow fadeInDown">
-                        <div class="shape"><span><img src="web-assets/images/gallery/experience.png" alt=""></span></div>
-                        <img src="web-assets/images/gallery/cta-2.jpg" alt="Kurulum Görseli">
-                    </div>
-                </div>
-            </div>
+<section class="section section--soft" id="process">
+    <div class="site-container">
+        <div class="section-heading section-heading--center">
+            <span class="eyebrow">Nasıl çalışır?</span>
+            <h2>Üç adımda randevu almaya başlayın.</h2>
+            <p>Karmaşık kurulum yok. Temel bilgilerinizi ekleyin, bağlantınızı paylaşın ve programınızı yönetin.</p>
+        </div>
+        <ol class="process-grid">
+            <li><span class="step-number">01</span><span class="step-icon"><i class="far fa-building"></i></span><h3>İşletmeni oluştur</h3><p>Hizmetlerini, çalışma saatlerini ve ekip üyelerini ekle.</p></li>
+            <li><span class="step-number">02</span><span class="step-icon"><i class="far fa-link"></i></span><h3>Randevu bağlantını paylaş</h3><p>Müşterilerin boş saatlerini görerek online randevu oluştursun.</p></li>
+            <li><span class="step-number">03</span><span class="step-icon"><i class="far fa-calendar-check"></i></span><h3>Tek panelden yönet</h3><p>Randevuları onayla, düzenle ve günlük programını takip et.</p></li>
+        </ol>
+    </div>
+</section>
+
+<section class="section" id="features">
+    <div class="site-container">
+        <div class="section-heading section-heading--split">
+            <div><span class="eyebrow">Temel özellikler</span><h2>Günlük iş yükünüzü hafifleten araçlar.</h2></div>
+            <p>Randevudan ekip planlamasına kadar ihtiyaç duyduğunuz temel süreçler tek, anlaşılır bir çalışma alanında.</p>
+        </div>
+        <div class="benefit-grid">
+            <article><span><i class="far fa-clock"></i></span><h3>7/24 online randevu</h3><p>Müşterileriniz işletme saatleri dışında da uygun zamanı seçebilsin.</p></article>
+            <article><span><i class="far fa-users"></i></span><h3>Personel ve hizmet yönetimi</h3><p>Hizmetleri, süreleri ve ekip üyelerini kolayca düzenleyin.</p></article>
+            <article><span><i class="far fa-calendar-alt"></i></span><h3>Çakışmasız müsaitlik</h3><p>Çalışma saatlerine göre doğru zaman aralıklarını otomatik sunun.</p></article>
+            <article><span><i class="far fa-check-circle"></i></span><h3>Onay ve iptal akışı</h3><p>Randevu taleplerini tek yerden onaylayın veya güncelleyin.</p></article>
+            <article><span><i class="far fa-store"></i></span><h3>İşletme profili</h3><p>Hizmetlerinizi ve işletme bilgilerinizi düzenli bir vitrinde sunun.</p></article>
+            <article><span><i class="far fa-chart-line"></i></span><h3>Tek ekranda operasyon</h3><p>Günlük programınızı ve randevu durumlarını hızlıca takip edin.</p></article>
         </div>
     </div>
 </section>
 
-<section class="gallery-section landing-gallery-strip pt-60 wow fadeInUp">
-    <div class="container-fluid">
-        <div class="slider-active-5-item">
-            <?php foreach ($landingGalleryImages as [$image, $label]): ?>
-                <div class="landing-gallery-slide">
-                    <img src="<?= esc($image) ?>" alt="<?= esc($label) ?>">
-                    <span><?= esc($label) ?></span>
-                </div>
+<section class="section product-stories" id="product">
+    <div class="site-container">
+        <article class="product-story">
+            <div class="product-story__copy"><span class="eyebrow">Yönetim paneli</span><h2>Gününüzü tek ekrandan yönetin.</h2><p>Kim, hangi hizmet için, ne zaman geliyor? Günlük akışınızı tek bakışta görün; ekip ve randevu değişikliklerini aynı yerden yönetin.</p><ul class="check-list"><li>Günlük ve haftalık randevu görünümü</li><li>Personel bazlı program takibi</li><li>Onay, iptal ve durum yönetimi</li></ul><a class="text-link" href="<?= base_url('register') ?>">Paneli ücretsiz deneyin <i class="far fa-arrow-right"></i></a></div>
+            <div class="product-story__visual product-story__visual--desktop"><span class="visual-label"><i class="far fa-circle"></i> Canlı operasyon görünümü</span><div class="browser-frame"><div class="browser-frame__bar"><span></span><span></span><span></span><small>Randevu paneli</small></div><img src="web-assets/images/landing-digital/operations-dashboard.webp" alt="Günlük randevu ve işletme operasyon paneli" loading="lazy" width="1536" height="1024"></div></div>
+        </article>
+        <article class="product-story product-story--reverse">
+            <div class="product-story__copy"><span class="eyebrow">Müşteri deneyimi</span><h2>Müşterileriniz beklemeden randevu alsın.</h2><p>Telefon trafiğini azaltın. Müşterileriniz hizmeti, personeli ve uygun saati mobil uyumlu sayfanızdan kendi seçsin.</p><ul class="check-list"><li>Mobil uyumlu hızlı rezervasyon</li><li>Yalnızca müsait saatlerin gösterimi</li><li>Kolay ve anlaşılır randevu adımları</li></ul><a class="text-link" href="<?= base_url('businesses') ?>">İşletme sayfalarını inceleyin <i class="far fa-arrow-right"></i></a></div>
+            <div class="product-story__visual product-story__visual--mobile"><img src="web-assets/images/landing-digital/customer-booking.webp" alt="Mobil cihazdan online randevu oluşturma deneyimi" loading="lazy" width="1536" height="1024"><div class="visual-fact"><i class="far fa-bolt"></i><span><strong>Hızlı seçim</strong>Hizmet, ekip ve saat</span></div></div>
+        </article>
+    </div>
+</section>
+
+<?php if ($featuredBusinesses !== []): ?>
+<section class="section section--soft" id="featured-businesses">
+    <div class="site-container">
+        <div class="section-heading section-heading--split"><div><span class="eyebrow">Öne çıkan işletmeler</span><h2>Online randevu alan işletmeleri keşfedin.</h2></div><a class="text-link" href="<?= base_url('businesses') ?>">Tüm işletmeler <i class="far fa-arrow-right"></i></a></div>
+        <div class="business-card-grid">
+            <?php foreach ($featuredBusinesses as $business): $url = base_url('businesses/' . $business['slug']); ?>
+                <article class="business-card"><a class="business-card__image" href="<?= esc($url) ?>"><img src="<?= base_url($business['image']) ?>" alt="<?= esc($business['name']) ?>" loading="lazy"></a><div class="business-card__body"><div class="business-card__meta"><span><?= esc($business['category']) ?></span><?php if ($business['location'] !== ''): ?><span><i class="far fa-map-marker-alt"></i> <?= esc($business['location']) ?></span><?php endif; ?></div><h3><a href="<?= esc($url) ?>"><?= esc($business['name']) ?></a></h3><?php if ($business['description'] !== ''): ?><p><?= esc($business['description']) ?></p><?php endif; ?><a class="text-link" href="<?= esc($url) ?>">Randevu Al <i class="far fa-arrow-right"></i></a></div></article>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+<?php endif; ?>
+
+<section class="section packages-brief" id="packages">
+    <div class="site-container packages-brief__card">
+        <div><span class="eyebrow eyebrow--light">Sade fiyatlandırma</span><h2>Ücretsiz başlayın, ihtiyacınız büyüdüğünde planınızı geliştirin.</h2><p><?= esc($freePackage['description'] ?? 'İşletmenizi kurmak ve online randevu almaya başlamak için ihtiyacınız olan temel araçlar hazır.') ?></p></div>
+        <div class="packages-brief__action"><span class="plan-status"><i class="far fa-check"></i> Ücretsiz plan aktif</span><strong><?= esc($freePackage['priceLabel'] ?? 'Ücretsiz') ?></strong><a class="button button--light" href="<?= base_url('packages/select/free') ?>">Paketleri incele <i class="far fa-arrow-right"></i></a><small>Standart ve Premium planlar yakında.</small></div>
+    </div>
+</section>
+
+<section class="section faq-section" id="faq">
+    <div class="site-container faq-layout">
+        <div class="section-heading"><span class="eyebrow">Sık sorulan sorular</span><h2>Başlamadan önce bilmeniz gerekenler.</h2><p>Kurulum ve randevu akışıyla ilgili temel soruların kısa yanıtları.</p></div>
+        <div class="accordion faq-list" id="faqAccordion">
+            <?php
+            $faqs = [
+                ['Ücretsiz başlayabilir miyim?', 'Evet. Ücretsiz planla işletme profilinizi oluşturabilir, hizmet ve ekip yapınızı hazırlayabilirsiniz. Kredi kartı gerekmez.'],
+                ['Kurulum ne kadar sürer?', 'İşletme bilgileriniz hazırsa hizmetlerinizi, çalışma saatlerinizi ve ekibinizi birkaç dakika içinde ekleyebilirsiniz.'],
+                ['Müşteriler nasıl randevu alır?', 'İşletme bağlantınız üzerinden hizmeti ve uygun saati seçerek online randevu talebi oluştururlar.'],
+                ['Randevuları onaylayabilir veya iptal edebilir miyim?', 'Evet. Gelen talepleri panelden onaylayabilir, reddedebilir veya durumunu güncelleyebilirsiniz.'],
+                ['Birden fazla personel ekleyebilir miyim?', 'Personel yapınızı panelden oluşturabilir ve hizmetlerinizi ilgili ekip üyeleriyle birlikte yönetebilirsiniz.'],
+                ['Bilgilerimi daha sonra değiştirebilir miyim?', 'Evet. İşletme, hizmet, personel ve çalışma saati bilgilerinizi yönetim panelinden güncelleyebilirsiniz.'],
+            ];
+            foreach ($faqs as $index => [$question, $answer]): $id = 'faq-' . $index; ?>
+                <div class="accordion-item"><h3 class="accordion-header"><button class="accordion-button<?= $index === 0 ? '' : ' collapsed' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#<?= $id ?>" aria-expanded="<?= $index === 0 ? 'true' : 'false' ?>" aria-controls="<?= $id ?>"><span><?= str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) ?></span><?= esc($question) ?></button></h3><div id="<?= $id ?>" class="accordion-collapse collapse<?= $index === 0 ? ' show' : '' ?>" data-bs-parent="#faqAccordion"><div class="accordion-body"><?= esc($answer) ?></div></div></div>
             <?php endforeach; ?>
         </div>
     </div>
 </section>
 
-<section class="featured-businesses-section pt-100 pb-90" id="featured-businesses">
-    <div class="container">
-        <div class="row align-items-end mb-55">
-            <div class="col-lg-8">
-                <div class="section-title wow fadeInLeft">
-                    <span class="sub-title">Öne Çıkan İşletmeler</span>
-                    <h2>Randevu altyapısını vitriniyle birlikte kullanan işletmeler</h2>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="featured-business-note wow fadeInRight">
-                    Bu alan şimdilik aktif işletmelerden beslenir. Panelde “öne çıkar” seçimi eklendiğinde aynı kartlar doğrudan o yönetime bağlanacak.
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <?php foreach ($featuredBusinesses as $index => $business): ?>
-                <?php
-                $image = $business['image'] ?: $landingGalleryImages[$index % count($landingGalleryImages)][0];
-                $url = ! empty($business['slug']) ? base_url('businesses/' . $business['slug']) : base_url('businesses');
-                ?>
-                <div class="col-xl-4 col-md-6 col-sm-12">
-                    <article class="featured-business-card wow fadeInUp" data-wow-delay="<?= esc((string) (.1 + ($index * .08))) ?>s">
-                        <a href="<?= esc($url) ?>" class="featured-business-image">
-                            <img src="<?= esc($image) ?>" alt="<?= esc($business['name']) ?>">
-                        </a>
-                        <div class="featured-business-content">
-                            <div class="featured-business-meta">
-                                <span><?= esc($business['category'] ?: 'Hizmet İşletmesi') ?></span>
-                                <?php if (! empty($business['location'])): ?>
-                                    <span><?= esc($business['location']) ?></span>
-                                <?php endif; ?>
-                            </div>
-                            <h3><a href="<?= esc($url) ?>"><?= esc($business['name']) ?></a></h3>
-                            <p><?= esc($business['description']) ?></p>
-                            <a href="<?= esc($url) ?>" class="btn-link">İşletmeyi Gör<i class="far fa-arrow-right"></i></a>
-                        </div>
-                    </article>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</section>
-
-<section id="process" class="process-section pt-120">
-    <div class="process-wrapper p-r z-1">
-        <div class="shape line-shape wow fadeInUp">
-            <span><img src="web-assets/images/shape/line.png" alt="Line Shape"></span>
-        </div>
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-9">
-                    <div class="section-title text-center mb-65 wow fadeInDown">
-                        <span class="sub-title">Peki Süreç Nasıl İşliyor?</span>
-                        <h2>Gelin beraber bakalım</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <?php
-                $steps = [
-                    ['#E1EEDD', 'step1.png', 'icon-7.png', 'Paketinizi seçin', false],
-                    ['#0F0F2D', 'step2.png', 'icon-8.png', 'Giriş yapın veya kayıt olun', true],
-                    ['#FFB966', 'step3.png', 'icon-9.png', 'İşletme bilgilerinizi ekleyin', false],
-                    ['#193B1E', 'step4.png', 'icon-10.png', 'Hizmet ve personel yapınızı kurun', true],
-                ];
-                foreach ($steps as [$bg, $step, $icon, $title, $white]):
-                ?>
-                    <div class="col-xl-3 col-md-6 col-sm-12">
-                        <div class="single-process-item<?= $white ? ' text-white' : '' ?> mb-60 wow fadeInUp">
-                            <div class="process-inner-content" style="background-color: <?= esc($bg) ?>;">
-                                <div class="step"><img src="web-assets/images/shape/<?= esc($step) ?>" alt="Adım"></div>
-                                <div class="icon"><img src="web-assets/images/icon/<?= esc($icon) ?>" alt="İkon"></div>
-                                <div class="content">
-                                    <h5><?= esc($title) ?></h5>
-                                    <p>Kurulum sürecini birkaç adımda tamamlayıp yönetim paneline geçin.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="faq-section pt-70 pb-100">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <div class="faq-content-box pr-lg-70 mb-20 wow fadeInLeft">
-                    <div class="section-title mb-40">
-                        <span class="sub-title">Sık Sorulan Sorular</span>
-                        <h2>Paket ve kurulum süreci hakkında merak ettikleriniz</h2>
-                    </div>
-                    <div class="accordion" id="accordionOne">
-                        <?php
-                        $faqItems = [
-                            ['collapse0', 'Önce paket mi seçiyorum?', true],
-                            ['collapse1', 'Paket seçtikten sonra ne oluyor?', false],
-                            ['collapse2', 'Üyeliğim yoksa kayıt olabilir miyim?', false],
-                            ['collapse3', 'İşletme bilgilerimi sonradan güncelleyebilir miyim?', false],
-                        ];
-                        foreach ($faqItems as $index => [$id, $question, $open]):
-                        ?>
-                            <div class="accordion-card mb-25">
-                                <div class="accordion-header">
-                                    <h6 class="accordion-title<?= $open ? '' : ' collapsed' ?>" data-bs-toggle="collapse" data-bs-target="#<?= esc($id) ?>" aria-expanded="<?= $open ? 'true' : 'false' ?>">
-                                        <span class="number"><?= esc(str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT)) ?>.</span><?= esc($question) ?>
-                                    </h6>
-                                </div>
-                                <div id="<?= esc($id) ?>" class="accordion-collapse collapse<?= $open ? ' show' : '' ?>" data-bs-parent="#accordionOne">
-                                    <div class="accordion-body">
-                                        <p>Paket seçimi sonrası kullanıcı giriş yapar veya kayıt olur, ardından doğrudan işletme bilgilerini girerek kurulumuna devam eder.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="faq-image-box pl-lg-70 mb-50 wow fadeInRight">
-                    <img src="web-assets/images/gallery/faq-1.jpg" alt="Sık Sorulan Sorular">
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!--=== Start Animate Headline ===-->
-<div class="animate-headline">
-    <div class="headline-text mb-90">
-        <div class="animate-text">
-            <span class="bgi">Akıllı Randevu Sistemi</span>
-        </div>
-    </div>
-</div><!--=== End Animate Headline ===-->
+<section class="final-cta"><div class="site-container final-cta__inner"><div><span>Bugün başlayın</span><h2>Randevu trafiğini düzene sokun.</h2><p>İşletmenizi birkaç adımda kurun ve müşterilerinize kolay bir randevu deneyimi sunun.</p></div><a class="button button--light" href="<?= base_url('register') ?>">Ücretsiz hesabını oluştur <i class="far fa-arrow-right"></i></a></div></section>

@@ -9,23 +9,28 @@ use App\Models\BusinessServiceModel;
 use App\Models\BusinessWebSettingModel;
 use App\Models\BusinessWebPageModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
+use Throwable;
 
 class BusinessController extends BaseController
 {
     public function index(): string
     {
-        $businesses = (new BusinessModel())
-            ->select('businesses.*, business_web_settings.page_title, business_web_settings.short_intro, business_web_settings.cover_image, business_web_settings.intro_image')
-            ->join('business_web_settings', 'business_web_settings.business_id = businesses.id', 'left')
-            ->groupStart()
-            ->where('status', 'active')
-            ->orWhere('is_active', 1)
-            ->groupEnd()
-            ->orderBy('id', 'DESC')
-            ->findAll();
+        try {
+            $businesses = (new BusinessModel())
+                ->select('businesses.*, business_web_settings.page_title, business_web_settings.short_intro, business_web_settings.cover_image, business_web_settings.intro_image')
+                ->join('business_web_settings', 'business_web_settings.business_id = businesses.id', 'left')
+                ->groupStart()
+                ->where('status', 'active')
+                ->orWhere('is_active', 1)
+                ->groupEnd()
+                ->orderBy('id', 'DESC')
+                ->findAll();
+        } catch (Throwable $exception) {
+            $businesses = [];
+        }
 
         return view('web/businesses/index', [
-            'pageTitle'  => 'Isletmeler',
+            'pageTitle'  => 'İşletmeler — Randevu',
             'businesses' => $businesses,
         ]);
     }
