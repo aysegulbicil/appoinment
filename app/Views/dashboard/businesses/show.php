@@ -2,7 +2,7 @@
 $tabs = [
     'general' => 'Genel Bilgiler',
     'web-pages' => 'Web Sayfaları',
-    'web-settings' => 'Web Ayarlari',
+    'web-settings' => 'Web Ayarları',
 ];
 ?>
 <div class="content-body">
@@ -27,7 +27,7 @@ $tabs = [
                         <span class="badge badge-<?= ($business['status'] ?? 'active') === 'active' ? 'success' : 'secondary' ?> light">
                             <?= ($business['status'] ?? 'active') === 'active' ? 'Aktif' : 'Pasif' ?>
                         </span>
-                        <a href="<?= base_url('dashboard/businesses') ?>" class="btn btn-light border">Geri Don</a>
+                        <a href="<?= base_url('dashboard/businesses') ?>" class="btn btn-light border"><i class="fa fa-arrow-left" aria-hidden="true"></i> İşletmelerim</a>
                     </div>
                 </div>
             </div>

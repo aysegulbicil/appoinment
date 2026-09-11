@@ -9,10 +9,9 @@
             <div class="card-body d-flex justify-content-between align-items-start flex-wrap gap-3">
                 <div>
                     <h3 class="mb-2"><?= esc($business['name'] ?? '-') ?> - Sayfalar</h3>
-                    <p class="text-muted mb-0">Aktif sayfaları yönet, sırala ve menü görünürlüğünü ayarla.</p>
                 </div>
                 <div class="d-flex gap-2 flex-wrap">
-                    <a href="<?= base_url('dashboard/businesses/' . $business['id'] . '/web-pages/create') ?>" class="btn btn-primary">Yeni Sayfa</a>
+                    <a href="<?= base_url('dashboard/businesses/' . $business['id'] . '/web-pages/create') ?>" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Sayfa ekle</a>
                     <a href="<?= base_url('dashboard/businesses/' . $business['id'] . '/web-settings/general') ?>" class="btn btn-light border">Genel Ayarlar</a>
                 </div>
             </div>

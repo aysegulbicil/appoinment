@@ -29,12 +29,9 @@ class BusinessController extends BaseController
         $businesses = $businessQuery->findAll();
 
         return $this->render('dashboard/businesses/index', [
-            'pageTitle'       => 'Isletmelerim',
+            'pageTitle'       => 'İşletmelerim',
             'businesses'      => $businesses,
             'selectedPackage' => $this->selectedPackage(),
-            'pageStyles'      => '<link href="' . base_url('assets/vendor/datatables/css/jquery.dataTables.min.css') . '" rel="stylesheet">',
-            'pageScripts'     => '<script src="' . base_url('assets/vendor/datatables/js/jquery.dataTables.min.js') . '"></script>' . PHP_EOL
-                . '<script src="' . base_url('assets/js/plugins-init/datatables.init.js') . '"></script>',
         ]);
     }
 

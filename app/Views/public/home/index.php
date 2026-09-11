@@ -1,12 +1,13 @@
 <?php
 $contentView = $contentView ?? 'layouts/main';
 $contentData = $contentData ?? [];
+$contentData = array_merge($contentData, \App\Libraries\PanelNavigation::data($contentData));
 
 $html = implode('', [
-    view('layouts/header', $contentData),
-    view('layouts/sidebar_dashboard', $contentData),
+    view('layouts/panel_header', $contentData),
+    view('layouts/panel_sidebar', $contentData),
     view($contentView, $contentData),
-    view('layouts/footer', $contentData),
+    view('layouts/panel_footer', $contentData),
 ]);
 
 $assetBase = rtrim(base_url('assets'), '/');

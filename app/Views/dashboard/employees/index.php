@@ -92,30 +92,16 @@ $showCreateModal = $canManageStaff && $errors !== [];
                     <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
                         <?php if ($selectedBusiness !== null && $canManageStaff): ?>
                             <button type="button" class="btn btn-primary order-2" data-bs-toggle="modal" data-bs-target="#employee-create-modal">
-                                Çalışan Ekle
+                                <i class="fa fa-plus" aria-hidden="true"></i> Çalışan ekle
                             </button>
                         <?php endif; ?>
                         <h4 class="card-title mb-0">Çalışanlar</h4>
                     </div>
                     <div class="card-body">
-                        <?php if ($businesses !== []): ?>
-                            <form action="<?= base_url('dashboard/employees') ?>" method="get" class="row g-3 align-items-end mb-4">
-                                <div class="col-md-5 col-lg-12">
-                                    <label class="form-label" for="employee-business-filter">İşletme Filtresi</label>
-                                    <select id="employee-business-filter" name="business_id" class="form-control" onchange="this.form.submit()">
-                                        <?php foreach ($businesses as $business): ?>
-                                            <option value="<?= esc($business['id']) ?>" <?= (int) ($selectedBusiness['id'] ?? 0) === (int) $business['id'] ? 'selected' : '' ?>>
-                                                <?= esc($business['name']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </form>
-                        <?php endif; ?>
                         <?php if ($selectedBusiness === null): ?>
-                            <p class="text-muted mb-0">Henüz erişebileceğiniz bir işletme bulunmuyor.</p>
+                            <div class="sa-empty"><i class="fa fa-users" aria-hidden="true"></i><h2>Henüz işletme eklenmedi</h2><a href="<?= base_url('dashboard/businesses/create') ?>" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> İşletme ekle</a></div>
                         <?php elseif ($staff === []): ?>
-                            <p class="text-muted mb-0">Bu işletme için henüz çalışan eklenmemiş.</p>
+                            <div class="sa-empty"><i class="fa fa-users" aria-hidden="true"></i><h2>Henüz çalışan eklenmedi</h2><?php if ($canManageStaff): ?><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#employee-create-modal"><i class="fa fa-plus" aria-hidden="true"></i> Çalışan ekle</button><?php endif; ?></div>
                         <?php else: ?>
                             <div class="table-responsive">
                                 <table class="table table-responsive-md">

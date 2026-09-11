@@ -29,6 +29,11 @@ class AppointmentController extends BaseController
                 ->groupEnd();
         }
 
+        $businessId = (int) $this->request->getGet('business_id');
+        if ($businessId > 0) {
+            $appointmentQuery->where('appointments.business_id', $businessId);
+        }
+
         return $this->render('dashboard/appointments/index', [
             'pageTitle'    => 'Randevular',
             'appointments' => $appointmentQuery->findAll(),

@@ -24,7 +24,6 @@ $errors = session()->getFlashdata('errors') ?? [];
             <div class="card-header">
                 <div>
                     <h4 class="card-title mb-1">Randevular</h4>
-                    <p class="mb-0 text-muted">Bekleyen randevulari onaylayabilir, reddedebilir veya iptal edebilirsiniz.</p>
                 </div>
             </div>
             <div class="card-body">
@@ -33,18 +32,18 @@ $errors = session()->getFlashdata('errors') ?? [];
                         <thead>
                             <tr>
                                 <th>Kod</th>
-                                <th>Isletme</th>
+                                <th>İşletme</th>
                                 <th>Hizmet</th>
-                                <th>Musteri</th>
+                                <th>Müşteri</th>
                                 <th>Tarih/Saat</th>
                                 <th>Durum</th>
-                                <th class="text-end">Islem</th>
+                                <th class="text-end">İşlem</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if ($appointments === []): ?>
                                 <tr>
-                                    <td colspan="7" class="text-center py-4 text-muted">Henuz randevu talebi bulunmuyor.</td>
+                                    <td colspan="7" class="text-center py-5 text-muted">Henüz randevu talebi bulunmuyor.</td>
                                 </tr>
                             <?php else: ?>
                                 <?php foreach ($appointments as $appointment): ?>

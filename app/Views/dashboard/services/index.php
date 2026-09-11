@@ -21,30 +21,15 @@ $showCreateModal = $errors !== [];
                 <h4 class="card-title mb-0">Hizmetler</h4>
                 <?php if ($selectedBusiness !== null): ?>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#service-create-modal">
-                        Hizmet Ekle
+                        <i class="fa fa-plus" aria-hidden="true"></i> Hizmet ekle
                     </button>
                 <?php endif; ?>
             </div>
             <div class="card-body">
-                <?php if ($businesses !== []): ?>
-                    <form action="<?= base_url('dashboard/services') ?>" method="get" class="row g-3 align-items-end mb-4">
-                        <div class="col-md-5 col-lg-4">
-                            <label class="form-label" for="service-business-filter">İşletme Filtresi</label>
-                            <select id="service-business-filter" name="business_id" class="form-control" onchange="this.form.submit()">
-                                <?php foreach ($businesses as $business): ?>
-                                    <option value="<?= esc($business['id']) ?>" <?= (int) ($selectedBusiness['id'] ?? 0) === (int) $business['id'] ? 'selected' : '' ?>>
-                                        <?= esc($business['name']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                    </form>
-                <?php endif; ?>
-
                 <?php if ($selectedBusiness === null): ?>
-                    <p class="text-muted mb-0">Hizmet eklemek için önce bir işletme oluşturmalısınız.</p>
+                    <div class="sa-empty"><i class="fa fa-th-large" aria-hidden="true"></i><h2>Henüz işletme eklenmedi</h2><a class="btn btn-primary" href="<?= base_url('dashboard/businesses/create') ?>"><i class="fa fa-plus" aria-hidden="true"></i> İşletme ekle</a></div>
                 <?php elseif ($services === []): ?>
-                    <p class="text-muted mb-0">Bu işletme için henüz hizmet eklenmemiş.</p>
+                    <div class="sa-empty"><i class="fa fa-th-large" aria-hidden="true"></i><h2>Henüz hizmet eklenmedi</h2><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#service-create-modal"><i class="fa fa-plus" aria-hidden="true"></i> Hizmet ekle</button></div>
                 <?php else: ?>
                     <div class="table-responsive">
                         <table class="table table-responsive-md">
